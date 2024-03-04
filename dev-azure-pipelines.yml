@@ -92,26 +92,40 @@ stages:
         steps:
           - checkout: none # no source sync
 
-          - task: AzureCLI@2
-            displayName: ContainerApps에 배포
-            inputs:
-              azureSubscription: $(azureSubscription)
-              scriptType: bash
-              scriptLocation: inlineScript
-              inlineScript: |
-                az account show
-                az containerapp update \
-                  --name $(containerAppsName) \
-                  --resource-group $(resourceGroup) \
-                  --image $(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId) \
-                  --registry-external-login 'enable=true' \
-                  --registry-server $(containerRegistry) \
-                  --registry-username $(FUSION_DESKTOP_FE_ACR_USER_NAME) \
-                  --registry-password $(FUSION_DESKTOP_FE_ACR_SECRET)
+          - bash: |
+              # Azure CLI가 설치되어 있는지 확인
+              if ! command -v az &> /dev/null
+              then
+                  echo "Azure CLI가 설치되어 있지 않습니다. 설치를 시작합니다..."
 
-          # - task: AzureContainerApps@1
+                  # Azure CLI 공식 설치 스크립트를 사용하여 설치
+                  curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+              else
+                  echo "Azure CLI가 이미 설치되어 있습니다."
+              fi
+
+            displayName: "Azure CLI 설치 확인"
+
+          # - task: AzureCLI@2
+          #   displayName: ContainerApps에 배포
           #   inputs:
-          #     azureSubscription: "$(azureSubscription)"
-          #     imageToDeploy: "$(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)"
-          #     containerAppName: "$(containerAppsName)"
-          #     resourceGroup: "$(resourceGroup)"
+          #     azureSubscription: $(azureSubscription)
+          #     scriptType: bash
+          #     scriptLocation: inlineScript
+          #     inlineScript: |
+          #       az account show
+          #       az containerapp update \
+          #         --name $(containerAppsName) \
+          #         --resource-group $(resourceGroup) \
+          #         --image $(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId) \
+          #         --registry-external-login 'enable=true' \
+          #         --registry-server $(containerRegistry) \
+          #         --registry-username $(FUSION_DESKTOP_FE_ACR_USER_NAME) \
+          #         --registry-password $(FUSION_DESKTOP_FE_ACR_SECRET)
+
+          - task: AzureContainerApps@1
+            inputs:
+              azureSubscription: "$(azureSubscription)"
+              imageToDeploy: "$(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)"
+              containerAppName: "$(containerAppsName)"
+              resourceGroup: "$(resourceGroup)"
