@@ -9,12 +9,19 @@ parameters:
 
 jobs:
   - job: ${{ parameters.jobName }}
-    displayName: Nest.Js 앱 컴파일
+    displayName: Next.Js 앱 컴파일
     dependsOn: ${{ parameters.dependsOn }}
     workspace:
       clean: all
     steps:
-      # nest cli설치
+      # next cli설치
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: remove -g next@
+        displayName: "Next js cli 제거"
+
+      # next cli설치
       - task: Npm@1
         inputs:
           command: custom
@@ -28,7 +35,7 @@ jobs:
           customCommand: ci
         displayName: "NPM 패키지 설치"
 
-      # Nest JS Build
+      # Next JS Build
       - task: Npm@1
         inputs:
           command: custom
