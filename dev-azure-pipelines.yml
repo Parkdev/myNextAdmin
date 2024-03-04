@@ -84,7 +84,7 @@ stages:
       # vmImage: $(vmImageName)
 
     jobs:
-      - job: Deploy To Container Apps
+      - job: DeployToContainerApps
         displayName: ContainerApps에 배포
         workspace:
           clean: all
