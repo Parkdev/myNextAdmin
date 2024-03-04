@@ -7,7 +7,7 @@ WORKDIR /app
 COPY ./.next ./.next
 COPY ./public ./public
 
-COPY ./next.config.js ./
+COPY ./next.config.mjs ./
 
 # package 파일 복사
 COPY ./package.json ./
