@@ -14,16 +14,16 @@ jobs:
     workspace:
       clean: all
     steps:
-      # next cli설치
+      # next 제거
+      - bash: |
+          rm -rf /usr/lib/node_modules/next
+        displayName: "Next js cli 제거"
+
+      # next cli제거
       - task: Npm@1
         inputs:
           command: custom
           customCommand: remove -g next
-        displayName: "Next js cli 제거"
-
-      # next cli설치
-      - bash: |
-          rm -rf /usr/lib/node_modules/next
         displayName: "Next js cli 제거"
 
       # next cli설치
