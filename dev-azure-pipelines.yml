@@ -92,9 +92,26 @@ stages:
         steps:
           - checkout: none # no source sync
 
-          - task: AzureContainerApps@1
+          - task: AzureCLI@2
+            displayName: ContainerApps에 배포
             inputs:
-              azureSubscription: "$(azureSubscription)"
-              imageToDeploy: "$(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)"
-              containerAppName: "$(containerAppsName)"
-              resourceGroup: "$(resourceGroup)"
+              azureSubscription: $(azureSubscription)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az account show
+                az containerapp update \
+                  --name $(containerAppsName) \
+                  --resource-group $(resourceGroup) \
+                  --image $(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId) \
+                  --registry-external-login 'enable=true' \
+                  --registry-server $(containerRegistry) \
+                  --registry-username $(FUSION_DESKTOP_FE_ACR_USER_NAME) \
+                  --registry-password $(FUSION_DESKTOP_FE_ACR_SECRET)
+
+          # - task: AzureContainerApps@1
+          #   inputs:
+          #     azureSubscription: "$(azureSubscription)"
+          #     imageToDeploy: "$(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)"
+          #     containerAppName: "$(containerAppsName)"
+          #     resourceGroup: "$(resourceGroup)"
