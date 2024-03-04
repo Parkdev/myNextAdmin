@@ -13,7 +13,7 @@ resources:
 variables:
   # Container Apps 관련 변수
   - name: azureSubscription
-    value: db8fa422-7920-47c8-b2d7-2f228f7e3a3e
+    value: "Cloud First Dev"
   - name: resourceGroup
     value: SaaS-Dev-KoreaCentral
   - name: containerAppsName
