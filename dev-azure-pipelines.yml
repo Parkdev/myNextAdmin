@@ -1,0 +1,100 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  branches:
+    include:
+      - dev
+
+resources:
+  - repo: self
+
+variables:
+  # Container Apps 관련 변수
+  - name: azureSubscription
+    value: db8fa422-7920-47c8-b2d7-2f228f7e3a3e
+  - name: resourceGroup
+    value: SaaS-Dev-KoreaCentral
+  - name: containerAppsName
+    value: dev-koreacentral-fusiondesktop
+
+  # 앱 정보
+  - name: AppName
+    value: FusionDesktopFe
+  - name: serviceName
+    value: fusion-desktop-fe
+
+  # update ring 및 Node 환경 변수
+  - name: update_ring
+    value: Dev
+  - name: update_ring_LOWER
+    value: dev
+  - name: NODE_MODE
+    value: dev
+  - name: VARS_MODE
+    value: Dev
+
+  # 변수 그룹 불러오기
+  - group: "Common__Cloud_SaaS_Apps_Info"
+  - group: "Common__Cloud_SaaS_ContainerRegistryInfo"
+  - group: "Common__Cloud_SaaS_${{variables.AppName}}"
+
+  - group: "${{variables.VARS_MODE}}__Cloud_SaaS_Apps_Info"
+  - group: "${{variables.VARS_MODE}}__Cloud_SaaS_${{variables.AppName}}"
+
+stages:
+  - stage: ${{variables.update_ring}}Build
+    displayName: ${{variables.update_ring}} 컨테이너 이미지 빌드
+    pool:
+      name: Default
+      # vmImage: $(vmImageName)
+    jobs:
+      - template: "../pipeline_templates/templates/nest-app-build-v2.yaml"
+        parameters:
+          jobName: Compile
+          serviceName: ${{variables.serviceName}}
+
+      - template: "../../pipeline_templates/templates/docker-image-build-push-v2.yaml"
+        parameters:
+          jobName: ${{variables.update_ring}}ContainerImageBuild
+          displayName: ${{variables.update_ring}} 이미지 빌드 및 푸시
+          dependsOn: Compile
+
+          serviceName: ${{variables.serviceName}}
+          containerTag: ${{variables.update_ring_LOWER}}-$(Build.BuildId)
+          dockerRegistryServiceConnection: $(dockerRegistryServiceConnection)
+          predefinedTasks:
+            # ENV파일 만들기
+            - bash: |
+                cat <<EOF > .env
+
+                AZURE_AD_CLIENT_ID=$(FUSION_DESKTOP_CLIENT_ID)
+                AZURE_AD_CLIENT_SECRET=$(FUSION_DESKTOP_CLIENT_SECRET)
+
+                EOF
+                cat .env
+              displayName: "Env file 만들기"
+
+  # - stage: DeployToDevEnv
+  #   dependsOn: ${{variables.update_ring}}Build
+  #   displayName: 배포
+  #   pool:
+  #     name: Default
+  #     # vmImage: $(vmImageName)
+
+  #   jobs:
+  #     - job: Deploy To Container Apps
+  #       displayName: ContainerApps에 배포
+  #       workspace:
+  #         clean: all
+
+  #       steps:
+  #         - checkout: none # no source sync
+
+  #         - task: AzureContainerApps@1
+  #           inputs:
+  #             azureSubscription: "$(azureSubscription)"
+  #             imageToDeploy: "$(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)"
+  #             containerAppName: "$(containerAppsName)"
+  #             resourceGroup: "$(resourceGroup)"

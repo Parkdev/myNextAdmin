@@ -1,0 +1,57 @@
+parameters:
+  - name: jobName
+    type: string
+  - name: dependsOn
+    type: string
+    default: ""
+  - name: displayName
+    type: string
+  - name: serviceName
+    type: string
+  - name: containerTag
+    type: string
+  - name: dockerRegistryServiceConnection
+    type: string
+  - name: predefinedTasks
+    type: object
+    default: []
+
+jobs:
+  - job: ${{ parameters.jobName }}
+    workspace:
+      clean: all
+    dependsOn: ${{ parameters.dependsOn }}
+    displayName: ${{ parameters.displayName }}
+    steps:
+      - checkout: none # no source sync
+
+      # 아티팩트 파일 다운로드 /home/vsts/work/1/s
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifact: $(serviceName)
+          path: $(Build.SourcesDirectory) # /home/vsts/work/1/s
+
+      # 전처리 작업
+      - ${{ parameters.predefinedTasks }}
+
+      # 개발 이미지 빌드
+      - task: Docker@2
+        displayName: 이미지 빌드
+        inputs:
+          command: build # build
+          repository: $(serviceName)
+          dockerfile: ./Dockerfile
+          arguments: --no-cache
+          containerRegistry: $(dockerRegistryServiceConnection)
+          tags: |
+            ${{ parameters.containerTag }}
+
+      # 개발 이미지 푸시
+      - task: Docker@2
+        displayName: 이미지 푸시
+        inputs:
+          command: push # build
+          repository: $(serviceName)
+          containerRegistry: $(dockerRegistryServiceConnection)
+          tags: |
+            ${{ parameters.containerTag }}
