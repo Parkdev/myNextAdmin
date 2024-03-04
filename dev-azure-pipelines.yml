@@ -50,11 +50,6 @@ stages:
       name: Default
       # vmImage: $(vmImageName)
     jobs:
-      - template: "../pipeline_templates/templates/nest-app-build-v2.yaml"
-        parameters:
-          jobName: Compile
-          serviceName: ${{variables.serviceName}}
-
       - template: "../../pipeline_templates/templates/docker-image-build-push-v2.yaml"
         parameters:
           jobName: ${{variables.update_ring}}ContainerImageBuild
