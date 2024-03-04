@@ -18,7 +18,7 @@ jobs:
       - task: Npm@1
         inputs:
           command: custom
-          customCommand: remove -g next@
+          customCommand: remove -g next
         displayName: "Next js cli 제거"
 
       # next cli설치
