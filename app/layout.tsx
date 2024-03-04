@@ -1,12 +1,22 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "@/config/site";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FusionDesktop",
-  description: "FusionDesktop is a modern desktop environment for m365",
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  icons: [
+    {
+      url: siteConfig.logo,
+      href: siteConfig.logo,
+    },
+  ],
 };
 
 export default function RootLayout({
