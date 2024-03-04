@@ -61,7 +61,8 @@ jobs:
 
           cp ./Dockerfile $(Build.ArtifactStagingDirectory)
 
-          cp ./next.config.js $(Build.ArtifactStagingDirectory)
+          cp ./next.config.mjs $(Build.ArtifactStagingDirectory)
+
           cp -r ./.next $(Build.ArtifactStagingDirectory)
           cp -r ./public $(Build.ArtifactStagingDirectory)
 
