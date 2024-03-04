@@ -54,7 +54,6 @@ stages:
         parameters:
           jobName: ${{variables.update_ring}}ContainerImageBuild
           displayName: ${{variables.update_ring}} 이미지 빌드 및 푸시
-          dependsOn: Compile
 
           serviceName: ${{variables.serviceName}}
           containerTag: ${{variables.update_ring_LOWER}}-$(Build.BuildId)
