@@ -76,25 +76,25 @@ stages:
                 cat .env
               displayName: "Env file 만들기"
 
-  # - stage: DeployToDevEnv
-  #   dependsOn: ${{variables.update_ring}}Build
-  #   displayName: 배포
-  #   pool:
-  #     name: Default
-  #     # vmImage: $(vmImageName)
+  - stage: DeployTo${{variables.VARS_MODE}}Env
+    dependsOn: ${{variables.update_ring}}Build
+    displayName: 배포
+    pool:
+      name: Default
+      # vmImage: $(vmImageName)
 
-  #   jobs:
-  #     - job: Deploy To Container Apps
-  #       displayName: ContainerApps에 배포
-  #       workspace:
-  #         clean: all
+    jobs:
+      - job: Deploy To Container Apps
+        displayName: ContainerApps에 배포
+        workspace:
+          clean: all
 
-  #       steps:
-  #         - checkout: none # no source sync
+        steps:
+          - checkout: none # no source sync
 
-  #         - task: AzureContainerApps@1
-  #           inputs:
-  #             azureSubscription: "$(azureSubscription)"
-  #             imageToDeploy: "$(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)"
-  #             containerAppName: "$(containerAppsName)"
-  #             resourceGroup: "$(resourceGroup)"
+          - task: AzureContainerApps@1
+            inputs:
+              azureSubscription: "$(azureSubscription)"
+              imageToDeploy: "$(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)"
+              containerAppName: "$(containerAppsName)"
+              resourceGroup: "$(resourceGroup)"
