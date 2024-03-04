@@ -117,11 +117,7 @@ stages:
                 az containerapp update \
                   --name $(containerAppsName) \
                   --resource-group $(resourceGroup) \
-                  --image $(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId) \
-                  --registry-external-login 'enable=true' \
-                  --registry-server $(containerRegistry) \
-                  --registry-username $(FUSION_DESKTOP_FE_ACR_USER_NAME) \
-                  --registry-password $(FUSION_DESKTOP_FE_ACR_SECRET)
+                  --image $(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)
 
           # - task: AzureContainerApps@1
           #   inputs:
