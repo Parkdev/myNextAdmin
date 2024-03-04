@@ -22,6 +22,11 @@ jobs:
         displayName: "Next js cli 제거"
 
       # next cli설치
+      - bash: |
+          rm -rf /usr/lib/node_modules/next
+        displayName: "Next js cli 제거"
+
+      # next cli설치
       - task: Npm@1
         inputs:
           command: custom
