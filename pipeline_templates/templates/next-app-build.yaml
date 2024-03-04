@@ -49,8 +49,9 @@ jobs:
 
           cp ./Dockerfile $(Build.ArtifactStagingDirectory)
 
-          cp ./.next $(Build.ArtifactStagingDirectory)
-          cp ./public $(Build.ArtifactStagingDirectory)
+          cp ./next.config.js $(Build.ArtifactStagingDirectory)
+          cp -r ./.next $(Build.ArtifactStagingDirectory)
+          cp -r ./public $(Build.ArtifactStagingDirectory)
 
           ls -al
         displayName: 결과물 Artifact staging 폴더로 복사
