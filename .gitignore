@@ -37,4 +37,4 @@ next-env.d.ts
 
 # secrets
 _SECRETS
-.env
+.env.local
