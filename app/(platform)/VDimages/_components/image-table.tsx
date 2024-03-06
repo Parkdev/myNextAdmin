@@ -56,7 +56,6 @@ export const ImageTable = () => {
   return (
     <>
       <Table className="text-center w-full">
-        <TableCaption>이미지 테이블</TableCaption>
         <TableHeader className="text-center">
           <TableRow>
             <TableHead>ID</TableHead>

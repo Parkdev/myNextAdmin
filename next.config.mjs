@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/vdimages',
+        destination: '/VDimages',
         permanent: false,
       },
     ];
