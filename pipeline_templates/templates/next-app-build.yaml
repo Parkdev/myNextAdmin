@@ -66,6 +66,9 @@ jobs:
           cp -r ./.next $(Build.ArtifactStagingDirectory)
           cp -r ./public $(Build.ArtifactStagingDirectory)
 
+          cp -r ./manifests $(Build.ArtifactStagingDirectory)
+          cp -r ./tools $(Build.ArtifactStagingDirectory)
+
           ls -al
         displayName: 결과물 Artifact staging 폴더로 복사
 

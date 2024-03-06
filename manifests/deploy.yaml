@@ -1,0 +1,71 @@
+# prettier-ignore
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{serviceName}}-configmap
+  namespace: {{serviceCategory}}
+data:
+  PORT: {{EXPOSE_PORT}}
+  PRIMARY_LOCATION: "{{PRIMARY_LOCATION}}"
+  CURRENT_LOCATION: "{{CURRENT_LOCATION}}"
+
+---
+
+# prettier-ignore
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{serviceName}}
+  namespace: {{serviceCategory}}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{serviceName}}
+  template:
+    metadata:
+      labels:
+        app: {{serviceName}}
+    spec:
+      containers:
+        - name: http-server
+          image: "{{containerRegistry}}/{{serviceName}}:{{update_ring_LOWER}}-{{tag}}"
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          ports:
+            - containerPort: {{EXPOSE_PORT}}
+          # env:
+          #   - name: "AZURE_APP_INSIGHT_CONNECTION_STRING"
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: {{serviceName}}-secrets
+          #         key: app_insight_connection_string
+          envFrom:
+            - configMapRef:
+                name: {{serviceName}}-configmap
+
+
+---
+# prettier-ignore
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{serviceName}}
+  namespace: {{serviceCategory}}
+spec:
+  selector:
+    app: {{serviceName}}
+  type: ClusterIP
+  ports:
+    - port: {{EXPOSE_PORT}}
+      # protocol: TCP
+      # targetPort: {{EXPOSE_PORT}}
