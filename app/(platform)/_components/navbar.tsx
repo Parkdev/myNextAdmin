@@ -1,9 +1,10 @@
-import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { options } from "@/app/api/auth/[...nextauth]/options";
+import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import { options } from '@/app/api/auth/[...nextauth]/options';
 
-import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
+import { Logo } from '@/components/logo';
+import { Button } from '@/components/ui/button';
+import { NavProfile } from './nav-profile';
 
 export const Navbar = async () => {
   const session = await getServerSession(options);
@@ -14,14 +15,10 @@ export const Navbar = async () => {
         <Logo />
         <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
           {session ? (
-            <Button size="sm" variant="outline" asChild>
-              <Link href="/api/auth/signout?callbackUrl=/dashboard">
-                로그아웃
-              </Link>
-            </Button>
+            <NavProfile />
           ) : (
             <Button size="sm" asChild>
-              <Link href="/api/auth/signin?callbackUrl=/dashboard">로그인</Link>
+              <Link href={`/api/auth/signin`}>로그인</Link>
             </Button>
           )}
         </div>
