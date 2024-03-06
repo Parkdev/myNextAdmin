@@ -1,13 +1,20 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
+
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Notebook, Plus } from "lucide-react";
 import { useLocalStorage } from "usehooks-ts";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Accordion } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { useState } from "react";
 
 import { NavItem } from "./nav-item";
@@ -20,67 +27,75 @@ export const Sidebar = ({ storageKey = "d-sidebar-state" }: SidebarProps) => {
   //임시 대시보드
   const [boards, setBoards] = useState<Object[]>([
     {
-      category: 1,
-      name: "대시보드",
-      href: "/dashboard",
-      current: true,
+      id: 1,
+      name: "이미지 관리",
+      url: "/Image",
+      subCate: [
+        { id: 1, name: "모든 이미지", url: "/management", current: true },
+        { id: 2, name: "삭제된 이미지", url: "/deleted", current: false },
+      ],
+      current: false,
       icon: null,
     },
-    { category: 1, name: "Menu2", href: "#", current: false, icon: null },
-    { category: 1, name: "Menu3", href: "#", current: false, icon: null },
-    { category: 1, name: "Menu4", href: "#", current: false, icon: null },
     {
-      category: 2,
-      name: "Menu5",
-      href: "#",
+      id: 2,
+      name: "VDI Workspace",
+      url: "/VDI",
+      subCate: [
+        {
+          id: 1,
+          name: "모든 워크스페이스",
+          url: "/workSpaces",
+          current: false,
+        },
+        {
+          id: 2,
+          name: "삭제된 워크스페이스",
+          url: "/deletedSpaces",
+          current: false,
+        },
+        { id: 3, name: "업무시간 관리", url: "/deletedSpaces", current: false },
+      ],
       current: false,
-      icon: "Calendar",
+      icon: null,
     },
     {
-      category: 2,
-      name: "Menu6",
-      href: "#",
+      id: 3,
+      name: "데이터 보존 정책",
+      url: "/policies",
+      subCate: [
+        { id: 1, name: "모든 정책", url: "/allPolicies", current: false },
+      ],
       current: false,
-      icon: "BookmarkSlash",
-    },
-    {
-      category: 2,
-      name: "Menu7",
-      href: "#",
-      current: false,
-      icon: "Briefcase",
-    },
-    {
-      category: 2,
-      name: "Menu8", // 알람 데이터
-      href: "#",
-      current: false,
-      icon: "BuildingLibrary",
+      icon: null,
     },
   ]);
 
-  const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(
-    storageKey,
-    {},
-  );
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
-    (acc: string[], key: string) => {
-      if (expanded[key]) {
-        acc.push(key);
-      }
+  //   const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(
+  //     storageKey,
+  //     {},
+  //   );
 
-      return acc;
-    },
-    [],
-  );
+  //   const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
+  //     (acc: string[], key: string) => {
+  //       if (expanded[key]) {
+  //         acc.push(key);
+  //       }
 
-  const onExpand = (id: string) => {
-    setExpanded((curr) => ({
-      ...curr,
-      [id]: !expanded[id],
-    }));
-  };
+  //       return acc;
+  //     },
+  //     [],
+  //   );
+
+  //   const onExpand = (id: string) => {
+  //     setExpanded((curr) => ({
+  //       ...curr,
+  //       [id]: !expanded[id],
+  //     }));
+  //   };
 
   //   if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading) {
   //     return (
@@ -90,10 +105,14 @@ export const Sidebar = ({ storageKey = "d-sidebar-state" }: SidebarProps) => {
   //     );
   //   }
 
+  const onClick = (href: string) => {
+    router.push(href);
+  };
+
   return (
     <>
       <div className="font-bold text-xs flex items-center mb-1">
-        <span className="pl-4">대시보드</span>
+        <span className="pl-4">Menus</span>
         <Button
           asChild
           type="button"
@@ -107,19 +126,33 @@ export const Sidebar = ({ storageKey = "d-sidebar-state" }: SidebarProps) => {
         </Button>
       </div>
 
-      <Accordion
-        type="multiple"
-        defaultAccordionValue={defaultAccordionValue}
-        className="space-y-2"
-      >
+      <Accordion type="multiple" className="space-y-2">
         {boards.map((board, idx) => (
-          <NavItem
-            key={idx}
-            id={idx}
-            board={board}
-            isExpanded={true}
-            onExpand={onExpand}
-          ></NavItem>
+          <AccordionItem value={board.id} className="border-none">
+            <AccordionTrigger
+              className={`${board.current ? "bg-sky-500/10 text-sky-700" : ""} flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline`}
+            >
+              <div className="flex items-center gap-x-3">
+                <div className="bg-blue-800 rounded-lg p-2 relative">
+                  <Notebook className="h-4 w-4 text-white" />
+                </div>
+                <span>{board.name}</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="pt-1 text-neutral-700">
+              {board.subCate.map((sub, idx) => (
+                <Button
+                  key={idx}
+                  size="sm"
+                  onClick={() => onClick(sub.url)}
+                  className={`w-full font-normal justify-start pl-10 mb-1 " ${sub.current && "bg-sky-500/10 text-sky-700"}`}
+                  variant="ghost"
+                >
+                  {sub.name}
+                </Button>
+              ))}
+            </AccordionContent>
+          </AccordionItem>
         ))}
       </Accordion>
     </>
