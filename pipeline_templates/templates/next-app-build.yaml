@@ -1,0 +1,63 @@
+parameters:
+  - name: jobName
+    type: string
+  - name: dependsOn
+    type: string
+    default: ""
+  - name: serviceName
+    type: string
+
+jobs:
+  - job: ${{ parameters.jobName }}
+    displayName: Nest.Js 앱 컴파일
+    dependsOn: ${{ parameters.dependsOn }}
+    workspace:
+      clean: all
+    steps:
+      # nest cli설치
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: install -g next@14.1.1
+        displayName: "Next js cli 설치"
+
+      # Production NPM 패키지 설치
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: ci
+        displayName: "NPM 패키지 설치"
+
+      # Nest JS Build
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: run build
+        displayName: Next Js Compile
+
+      # /home/vsts/work/1/s -> /home/vsts/work/1/a
+      # 1. package-lock.json 을 아티팩트 폴더에 복사
+      # 2. package.json 을 아티팩트 폴더에 복사
+      # 3. Dockerfile 을 아티팩트 폴더에 복사
+      # 4. .next 을 아티팩트 폴더에 복사
+      # 5. public 을 아티팩트 폴더에 복사
+      - bash: |
+          ls -al
+          echo "========================================="
+          cp ./package-lock.json $(Build.ArtifactStagingDirectory)
+          cp ./package.json $(Build.ArtifactStagingDirectory)
+
+          cp ./Dockerfile $(Build.ArtifactStagingDirectory)
+
+          cp ./.next $(Build.ArtifactStagingDirectory)
+          cp ./public $(Build.ArtifactStagingDirectory)
+
+          ls -al
+        displayName: 결과물 Artifact staging 폴더로 복사
+
+      # 아티팩트 폴더(/home/vsts/work/1/a)에 있는 내용물, 아티팩트화 시키기
+      - task: PublishBuildArtifacts@1
+        displayName: Artifact 업로드
+        inputs:
+          pathToPublish: $(Build.ArtifactStagingDirectory) # /home/vsts/work/1/a
+          artifactName: $(serviceName)
