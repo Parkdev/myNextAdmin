@@ -13,7 +13,7 @@ resources:
 variables:
   # Container Apps 관련 변수
   - name: azureSubscription
-    value: db8fa422-7920-47c8-b2d7-2f228f7e3a3e
+    value: "Cloud First Dev KoreaCentral"
   - name: resourceGroup
     value: SaaS-Dev-KoreaCentral
   - name: containerAppsName
@@ -24,6 +24,10 @@ variables:
     value: FusionDesktopFe
   - name: serviceName
     value: fusion-desktop-fe
+  - name: serviceCategory
+    value: fusion-desktop
+  - name: EXPOSE_PORT
+    value: 80
 
   # update ring 및 Node 환경 변수
   - name: update_ring
@@ -68,15 +72,72 @@ stages:
             # ENV파일 만들기
             - bash: |
                 cat <<EOF > .env
+                NODE_MODE="$(NODE_MODE)"
 
-                AZURE_AD_CLIENT_ID=$(FUSION_DESKTOP_CLIENT_ID)
-                AZURE_AD_CLIENT_SECRET=$(FUSION_DESKTOP_CLIENT_SECRET)
+                AZURE_AD_TENANT_ID="common"
+                AZURE_AD_CLIENT_ID="$(FUSION_DESKTOP_CLIENT_ID)"
+                AZURE_AD_CLIENT_SECRET="$(FUSION_DESKTOP_CLIENT_SECRET)"
 
                 EOF
                 cat .env
               displayName: "Env file 만들기"
 
-  # - stage: DeployToDevEnv
+  - stage: DeployTo${{variables.update_ring}}Env
+    dependsOn: ${{variables.update_ring}}Build
+    displayName: ${{variables.update_ring}} 배포
+    pool:
+      name: Default
+      # vmImage: $(vmImageName)
+
+    variables:
+      - name: kubernetesEnvironmet
+        value: "DevEnv-KoreaCentral"
+
+      - name: kubernetesServiceEndpoint
+        value: DevEnv-KoreaCentral-dev_koreacentral_fnc_aks-fusion-desktop-1709715749519
+
+      - name: ingressHostName
+        value: desktop-dev.feelanetcloud.com
+
+    jobs:
+      - deployment: Deploy
+        displayName: Deploy to K8S
+        environment: ${{variables.kubernetesEnvironmet}}
+        workspace:
+          clean: all
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
+
+                - template: "./pipeline_templates/templates/manifest-converter.yaml"
+                  parameters:
+                    serviceName: ${{variables.serviceName}}
+                    arguments: deploy.yaml ingress.yaml
+                    variables: |
+                      {
+                        "update_ring_LOWER" : "$(update_ring_LOWER)",
+                        "serviceName": "$(serviceName)",
+                        "serviceCategory" : "$(serviceCategory)",
+                        "tag": "$(Build.BuildId)",
+                        "containerRegistry": "$(containerRegistry)",
+                        "ingressHostName" : "$(ingressHostName)",
+                        "NODE_MODE": "$(NODE_MODE)",
+                        "EXPOSE_PORT" : $(EXPOSE_PORT),
+                        "PRIMARY_LOCATION": "koreacentral",
+                        "CURRENT_LOCATION": "koreacentral"
+                      }
+
+                - task: Kubernetes@1
+                  displayName: kubectl apply
+                  inputs:
+                    connectionType: Kubernetes Service Connection
+                    kubernetesServiceEndpoint: ${{variables.kubernetesServiceEndpoint}}
+                    command: apply
+                    arguments: -f $(Pipeline.Workspace)/$(serviceName)/tools/manifest-converter/yaml_output/output.yaml
+
+  # - stage: DeployTo${{variables.VARS_MODE}}Env
   #   dependsOn: ${{variables.update_ring}}Build
   #   displayName: 배포
   #   pool:
@@ -84,7 +145,7 @@ stages:
   #     # vmImage: $(vmImageName)
 
   #   jobs:
-  #     - job: Deploy To Container Apps
+  #     - job: DeployToContainerApps
   #       displayName: ContainerApps에 배포
   #       workspace:
   #         clean: all
@@ -92,9 +153,36 @@ stages:
   #       steps:
   #         - checkout: none # no source sync
 
-  #         - task: AzureContainerApps@1
+  #         - bash: |
+  #             # Azure CLI가 설치되어 있는지 확인
+  #             if ! command -v az &> /dev/null
+  #             then
+  #                 echo "Azure CLI가 설치되어 있지 않습니다. 설치를 시작합니다..."
+
+  #                 # Azure CLI 공식 설치 스크립트를 사용하여 설치
+  #                 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  #             else
+  #                 echo "Azure CLI가 이미 설치되어 있습니다."
+  #             fi
+
+  #           displayName: "Azure CLI 설치 확인"
+
+  #         - task: AzureCLI@2
+  #           displayName: ContainerApps에 배포
   #           inputs:
-  #             azureSubscription: "$(azureSubscription)"
-  #             imageToDeploy: "$(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)"
-  #             containerAppName: "$(containerAppsName)"
-  #             resourceGroup: "$(resourceGroup)"
+  #             azureSubscription: $(azureSubscription)
+  #             scriptType: bash
+  #             scriptLocation: inlineScript
+  #             inlineScript: |
+  #               az account show
+  #               az containerapp update \
+  #                 --name $(containerAppsName) \
+  #                 --resource-group $(resourceGroup) \
+  #                 --image $(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)
+
+  #         # - task: AzureContainerApps@1
+  #         #   inputs:
+  #         #     azureSubscription: "$(azureSubscription)"
+  #         #     imageToDeploy: "$(containerRegistry)/$(serviceName):$(update_ring_LOWER)-$(Build.BuildId)"
+  #         #     containerAppName: "$(containerAppsName)"
+  #         #     resourceGroup: "$(resourceGroup)"

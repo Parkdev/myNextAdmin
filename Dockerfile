@@ -7,12 +7,16 @@ WORKDIR /app
 COPY ./.next ./.next
 COPY ./public ./public
 
+COPY ./next.config.mjs ./
+
 # package 파일 복사
 COPY ./package.json ./
 COPY ./package-lock.json ./
 
 # Production 의존성 패키지 설치
 RUN npm ci --omit=dev
+
+ENV NODE_ENV production
 
 COPY ./.env .
 

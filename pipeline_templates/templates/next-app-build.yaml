@@ -9,12 +9,24 @@ parameters:
 
 jobs:
   - job: ${{ parameters.jobName }}
-    displayName: Nest.Js 앱 컴파일
+    displayName: Next.Js 앱 컴파일
     dependsOn: ${{ parameters.dependsOn }}
     workspace:
       clean: all
     steps:
-      # nest cli설치
+      # next 제거
+      - bash: |
+          rm -rf /usr/lib/node_modules/next
+        displayName: "Next js cli 제거"
+
+      # next cli제거
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: remove -g next
+        displayName: "Next js cli 제거"
+
+      # next cli설치
       - task: Npm@1
         inputs:
           command: custom
@@ -28,7 +40,7 @@ jobs:
           customCommand: ci
         displayName: "NPM 패키지 설치"
 
-      # Nest JS Build
+      # Next JS Build
       - task: Npm@1
         inputs:
           command: custom
@@ -49,8 +61,13 @@ jobs:
 
           cp ./Dockerfile $(Build.ArtifactStagingDirectory)
 
-          cp ./.next $(Build.ArtifactStagingDirectory)
-          cp ./public $(Build.ArtifactStagingDirectory)
+          cp ./next.config.mjs $(Build.ArtifactStagingDirectory)
+
+          cp -r ./.next $(Build.ArtifactStagingDirectory)
+          cp -r ./public $(Build.ArtifactStagingDirectory)
+
+          cp -r ./manifests $(Build.ArtifactStagingDirectory)
+          cp -r ./tools $(Build.ArtifactStagingDirectory)
 
           ls -al
         displayName: 결과물 Artifact staging 폴더로 복사
