@@ -18,10 +18,9 @@
   font-weight: 700;
 }
 
-html,
-body {
+html {
   font-family: 'GmarketSans', sans-serif;
-  height: 100vh;
+  overflow-y: scroll;
 }
 
 @layer base {

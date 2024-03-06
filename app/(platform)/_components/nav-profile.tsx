@@ -52,10 +52,15 @@ export const NavProfile = () => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+          <Button
+            variant="ghost"
+            className="relative h-8 w-8 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
+          >
             <Avatar className="h-9 w-9">
               <AvatarImage src={session?.user?.image!} alt="images" />
-              <AvatarFallback>{session?.user?.name![0]}</AvatarFallback>
+              <AvatarFallback className="bg-none">
+                {session?.user?.name![0]}
+              </AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
