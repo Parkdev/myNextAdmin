@@ -1,7 +1,5 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-
 import Link from 'next/link';
 import { Notebook, Plus } from 'lucide-react';
 import { useLocalStorage } from 'usehooks-ts';
@@ -16,75 +14,47 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useEffect, useState } from 'react';
+import { NavItem } from './nav-item';
 
 interface SidebarProps {
   storageKey?: string;
 }
 
+// 임시 대시보드 type
+
+export type MyBoard = {
+  id: string;
+  name: string;
+  url: string;
+  current: boolean;
+  icon: any;
+};
+
 export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
   //임시 대시보드
-  type subCate = {
-    id: number;
-    name: string;
-    url: string;
-    current: boolean;
-  };
-  type MyBoard = {
-    id: number;
-    name: string;
-    url: string;
-    subCate: subCate[];
-    current: boolean;
-    icon: any;
-  };
   const [boards, setBoards] = useState<MyBoard[]>([
     {
-      id: 1,
+      id: '1',
       name: '이미지 관리',
       url: '/VDimages',
-      subCate: [
-        { id: 1, name: '모든 이미지', url: '/VDimages', current: false },
-        { id: 2, name: '삭제된 이미지', url: '/deleted', current: false },
-      ],
       current: false,
       icon: null,
     },
     {
-      id: 2,
+      id: '2',
       name: 'VDI Workspace',
       url: '/VDI',
-      subCate: [
-        {
-          id: 1,
-          name: '모든 워크스페이스',
-          url: '/workSpaces',
-          current: false,
-        },
-        {
-          id: 2,
-          name: '삭제된 워크스페이스',
-          url: '/deletedSpaces',
-          current: false,
-        },
-        { id: 3, name: '업무시간 관리', url: '/deletedSpaces', current: false },
-      ],
       current: false,
       icon: null,
     },
     {
-      id: 3,
+      id: '3',
       name: '데이터 보존 정책',
       url: '/policies',
-      subCate: [
-        { id: 1, name: '모든 정책', url: '/allPolicies', current: false },
-      ],
       current: false,
       icon: null,
     },
   ]);
-
-  const router = useRouter();
-  const pathname = usePathname();
 
   // 로컬스토리지 사용하기
   const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(
@@ -110,12 +80,6 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
     }));
   };
 
-  const [isClient, setIsClient] = useState(false);
-
-  const onClick = (href: string) => {
-    router.push(href);
-  };
-
   return (
     <>
       <div className="font-bold text-xs flex items-center mb-1">
@@ -139,32 +103,13 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
         className="space-y-2"
       >
         {boards.map(board => (
-          <AccordionItem value={board.url} className="border-none">
-            <AccordionTrigger
-              onClick={() => onExpand(board.url)}
-              className={`flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline`}
-            >
-              <div className="flex items-center gap-x-3">
-                <div className="bg-gray-500 rounded-lg p-2 relative">
-                  <Notebook className="h-4 w-4 text-white" />
-                </div>
-                <span>{board.name}</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pt-1 text-neutral-700">
-              {board.subCate.map((sub, idx) => (
-                <Button
-                  key={idx}
-                  size="sm"
-                  onClick={() => onClick(sub.url)}
-                  className={`w-full font-normal justify-start pl-10 mb-1 " ${pathname === sub.url && 'bg-sky-500/10 text-sky-700'}`}
-                  variant="ghost"
-                >
-                  {sub.name}
-                </Button>
-              ))}
-            </AccordionContent>
-          </AccordionItem>
+          <NavItem
+            key={board.id}
+            id={board.url}
+            name={board.name}
+            isExpanded={expanded[board.id]}
+            onExpand={onExpand}
+          />
         ))}
       </Accordion>
     </>
