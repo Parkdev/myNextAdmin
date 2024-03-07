@@ -28,6 +28,8 @@ variables:
     value: fusion-desktop
   - name: EXPOSE_PORT
     value: 80
+  - name: NEXTAUTH_SECRET
+    value: csacasvjakvs
 
   # update ring 및 Node 환경 변수
   - name: update_ring
@@ -73,6 +75,8 @@ stages:
             - bash: |
                 cat <<EOF > .env
                 NODE_MODE="$(NODE_MODE)"
+
+                NEXTAUTH_SECRET="$(NEXTAUTH_SECRET)"
 
                 AZURE_AD_TENANT_ID="common"
                 AZURE_AD_CLIENT_ID="$(FUSION_DESKTOP_CLIENT_ID)"
