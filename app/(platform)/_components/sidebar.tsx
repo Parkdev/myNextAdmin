@@ -17,8 +17,6 @@ import {
 } from '@/components/ui/accordion';
 import { useEffect, useState } from 'react';
 
-import { NavItem } from './nav-item';
-
 interface SidebarProps {
   storageKey?: string;
 }
