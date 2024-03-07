@@ -2,7 +2,7 @@ import { Navbar } from './_components/navbar';
 
 const PlatformLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-full scroll-p-0">
+    <div className="h-full">
       <Navbar />
       {children}
     </div>

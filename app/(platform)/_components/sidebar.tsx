@@ -43,9 +43,9 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
     {
       id: 1,
       name: '이미지 관리',
-      url: '/Image',
+      url: '/VDimages',
       subCate: [
-        { id: 1, name: '모든 이미지', url: '/VDimages', current: true },
+        { id: 1, name: '모든 이미지', url: '/VDimages', current: false },
         { id: 2, name: '삭제된 이미지', url: '/deleted', current: false },
       ],
       current: false,
@@ -88,28 +88,29 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  //   const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(
-  //     storageKey,
-  //     {},
-  //   );
+  // 로컬스토리지 사용하기
+  const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(
+    storageKey,
+    {},
+  );
 
-  //   const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
-  //     (acc: string[], key: string) => {
-  //       if (expanded[key]) {
-  //         acc.push(key);
-  //       }
+  // 디폴트 아코디언
+  const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
+    (acc: string[], key: string) => {
+      if (expanded[key]) {
+        acc.push(key);
+      }
+      return acc;
+    },
+    [],
+  );
 
-  //       return acc;
-  //     },
-  //     [],
-  //   );
-
-  //   const onExpand = (id: string) => {
-  //     setExpanded((curr) => ({
-  //       ...curr,
-  //       [id]: !expanded[id],
-  //     }));
-  //   };
+  const onExpand = (id: string) => {
+    setExpanded(curr => ({
+      ...curr,
+      [id]: !expanded[id],
+    }));
+  };
 
   //   if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading) {
   //     return (
@@ -140,11 +141,23 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
         </Button>
       </div>
 
-      <Accordion type="multiple" className="space-y-2">
+      <Accordion
+        type="multiple"
+        defaultValue={defaultAccordionValue}
+        className="space-y-2"
+      >
         {boards.map(board => (
+          //   <NavItem
+          //   key={organization.id}
+          //   isActive={activeOrganization?.id === organization.id}
+          //   isExpanded={expanded[organization.id]}
+          //   organization={organization as Organization}
+          //   onExpand={onExpand}
+          // />
           <AccordionItem value={board.url} className="border-none">
             <AccordionTrigger
-              className={`${board.current ? 'bg-sky-500/10 text-sky-700' : ''} flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline`}
+              onClick={() => onExpand(board.url)}
+              className={`${board.url === pathname && !expanded[board.url] ? 'bg-sky-500/10 text-sky-700' : ''} flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline`}
             >
               <div className="flex items-center gap-x-3">
                 <div className="bg-gray-500 rounded-lg p-2 relative">
@@ -159,7 +172,7 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
                   key={idx}
                   size="sm"
                   onClick={() => onClick(sub.url)}
-                  className={`w-full font-normal justify-start pl-10 mb-1 " ${sub.current && 'bg-sky-500/10 text-sky-700'}`}
+                  className={`w-full font-normal justify-start pl-10 mb-1 " ${pathname === sub.url && 'bg-sky-500/10 text-sky-700'}`}
                   variant="ghost"
                 >
                   {sub.name}

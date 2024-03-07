@@ -18,30 +18,34 @@ export function CreateImage() {
       <SheetTrigger asChild>
         <Button size="lg">+ 새 이미지 생성</Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="w-full sm:w-[540px]">
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
+          <SheetTitle>이미지 생성</SheetTitle>
           <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
+            생성할 이미지의 이름과 설명을 입력하세요.
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Name
+              이미지 이름
             </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
+            <Input id="name" value="이름" className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
-              Username
+              설명
             </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
+            <Input
+              id="username"
+              value="설명을 입력해주세요"
+              className="col-span-3"
+            />
           </div>
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit">저장하기</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

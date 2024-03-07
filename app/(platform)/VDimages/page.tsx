@@ -30,8 +30,8 @@ const ImagesPage = async () => {
   return (
     <>
       {session ? (
-        <div className="px-4 flex items-center justify-center flex-col">
-          <div className="flex justify-center flex-col gap-y-3">
+        <div className="px-4 w-full md: flex items-center justify-center flex-col">
+          <div className="w-full flex justify-center flex-col gap-y-3">
             <CreateImage />
             <DataTable data={tasks} columns={columns} />
           </div>
