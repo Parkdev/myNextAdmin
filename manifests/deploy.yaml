@@ -6,6 +6,7 @@ metadata:
   name: {{serviceName}}-configmap
   namespace: {{serviceCategory}}
 data:
+  NEXTAUTH_URL: https://{{ingressHostName}}
   PORT: "{{EXPOSE_PORT}}"
   PRIMARY_LOCATION: "{{PRIMARY_LOCATION}}"
   CURRENT_LOCATION: "{{CURRENT_LOCATION}}"
