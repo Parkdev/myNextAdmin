@@ -13,7 +13,7 @@ resources:
 variables:
   # Container Apps 관련 변수
   - name: azureSubscription
-    value: "Cloud First Dev KoreaCentral"
+    value: 'Cloud First Dev KoreaCentral'
   - name: resourceGroup
     value: SaaS-Dev-KoreaCentral
   - name: containerAppsName
@@ -42,12 +42,12 @@ variables:
     value: Dev
 
   # 변수 그룹 불러오기
-  - group: "Common__Cloud_SaaS_Apps_Info"
-  - group: "Common__Cloud_SaaS_ContainerRegistryInfo"
-  - group: "Common__Cloud_SaaS_${{variables.AppName}}"
+  - group: 'Common__Cloud_SaaS_Apps_Info'
+  - group: 'Common__Cloud_SaaS_ContainerRegistryInfo'
+  - group: 'Common__Cloud_SaaS_${{variables.AppName}}'
 
-  - group: "${{variables.VARS_MODE}}__Cloud_SaaS_Apps_Info"
-  - group: "${{variables.VARS_MODE}}__Cloud_SaaS_${{variables.AppName}}"
+  - group: '${{variables.VARS_MODE}}__Cloud_SaaS_Apps_Info'
+  - group: '${{variables.VARS_MODE}}__Cloud_SaaS_${{variables.AppName}}'
 
 stages:
   - stage: ${{variables.update_ring}}Build
@@ -56,12 +56,12 @@ stages:
       name: Default
       # vmImage: $(vmImageName)
     jobs:
-      - template: "./pipeline_templates/templates/next-app-build.yaml"
+      - template: './pipeline_templates/templates/next-app-build.yaml'
         parameters:
           jobName: Compile
           serviceName: ${{variables.serviceName}}
 
-      - template: "./pipeline_templates/templates/docker-image-build-push-v2.yaml"
+      - template: './pipeline_templates/templates/docker-image-build-push-v2.yaml'
         parameters:
           jobName: ${{variables.update_ring}}ContainerImageBuild
           displayName: ${{variables.update_ring}} 이미지 빌드 및 푸시
@@ -84,7 +84,7 @@ stages:
 
                 EOF
                 cat .env
-              displayName: "Env file 만들기"
+              displayName: 'Env file 만들기'
 
   - stage: DeployTo${{variables.update_ring}}Env
     dependsOn: ${{variables.update_ring}}Build
@@ -95,7 +95,7 @@ stages:
 
     variables:
       - name: kubernetesEnvironmet
-        value: "DevEnv-KoreaCentral"
+        value: 'DevEnv-KoreaCentral'
 
       - name: kubernetesServiceEndpoint
         value: DevEnv-KoreaCentral-dev_koreacentral_fnc_aks-fusion-desktop-1709715749519
@@ -115,7 +115,7 @@ stages:
               steps:
                 - checkout: none
 
-                - template: "./pipeline_templates/templates/manifest-converter.yaml"
+                - template: './pipeline_templates/templates/manifest-converter.yaml'
                   parameters:
                     serviceName: ${{variables.serviceName}}
                     arguments: deploy.yaml ingress.yaml
@@ -124,6 +124,7 @@ stages:
                         "update_ring_LOWER" : "$(update_ring_LOWER)",
                         "serviceName": "$(serviceName)",
                         "serviceCategory" : "$(serviceCategory)",
+                        "tlsSecretName" : "$(tlsSecretName)",
                         "tag": "$(Build.BuildId)",
                         "containerRegistry": "$(containerRegistry)",
                         "ingressHostName" : "$(ingressHostName)",
