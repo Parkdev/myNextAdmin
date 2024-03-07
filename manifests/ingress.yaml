@@ -1,0 +1,43 @@
+# prettier-ignore
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{serviceName}}-ingress
+  namespace: {{serviceCategory}}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+    # nginx.ingress.kubernetes.io/affinity: "cookie"
+    # nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    # nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+    # For using snippet, set "allow-snippet-annotations" to "true" on ingress controller config map
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ~* "^/health-probe" {
+        deny all;
+        return 403;
+      }
+    # # For resticting traffic that not started from specific Azure Front Door
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #   if ($http_x_my_custom_header = "") {
+    #     return 403;
+    #   }
+spec:
+  ingressClassName: nginx
+  # ingressClassName: azure-application-gateway
+  tls:
+    - hosts:
+        - "{{ingressHostName}}"
+      secretName: {{tlsSecretName}}
+  rules:
+    - host: "{{ingressHostName}}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{serviceName}}
+                port:
+                  number: {{EXPOSE_PORT}}
