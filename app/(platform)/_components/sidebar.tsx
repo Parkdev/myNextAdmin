@@ -15,7 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { NavItem } from './nav-item';
 
@@ -112,13 +112,7 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
     }));
   };
 
-  //   if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading) {
-  //     return (
-  //       <>
-  //         <Skeleton />
-  //       </>
-  //     );
-  //   }
+  const [isClient, setIsClient] = useState(false);
 
   const onClick = (href: string) => {
     router.push(href);
@@ -147,17 +141,10 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
         className="space-y-2"
       >
         {boards.map(board => (
-          //   <NavItem
-          //   key={organization.id}
-          //   isActive={activeOrganization?.id === organization.id}
-          //   isExpanded={expanded[organization.id]}
-          //   organization={organization as Organization}
-          //   onExpand={onExpand}
-          // />
           <AccordionItem value={board.url} className="border-none">
             <AccordionTrigger
               onClick={() => onExpand(board.url)}
-              className={`${board.url === pathname && !expanded[board.url] ? 'bg-sky-500/10 text-sky-700' : ''} flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline`}
+              className={`flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline`}
             >
               <div className="flex items-center gap-x-3">
                 <div className="bg-gray-500 rounded-lg p-2 relative">
