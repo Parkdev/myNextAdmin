@@ -63,6 +63,11 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
   );
 
   // 디폴트 아코디언
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
     (acc: string[], key: string) => {
       if (expanded[key]) {
@@ -80,23 +85,18 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
     }));
   };
 
+  if (!isClient) {
+    return (
+      <div className="flex flex-col gap-y-3">
+        <Skeleton className="h-[50px] w-[250px] rounded-xl" />
+        <Skeleton className="h-[50px] w-[250px] rounded-xl" />
+        <Skeleton className="h-[50px] w-[250px] rounded-xl" />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="font-bold text-xs flex items-center mb-1">
-        <span className="pl-4">Menus</span>
-        <Button
-          asChild
-          type="button"
-          size="icon"
-          variant="ghost"
-          className="ml-auto"
-        >
-          <Link href="/dashboard">
-            <Plus className="h-4 w-4" />
-          </Link>
-        </Button>
-      </div>
-
       <Accordion
         type="multiple"
         defaultValue={defaultAccordionValue}
