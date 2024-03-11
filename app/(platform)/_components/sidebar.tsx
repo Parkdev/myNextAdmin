@@ -88,9 +88,9 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
   if (!isClient) {
     return (
       <div className="flex flex-col gap-y-3">
-        <Skeleton className="h-[50px] w-[250px] rounded-xl" />
-        <Skeleton className="h-[50px] w-[250px] rounded-xl" />
-        <Skeleton className="h-[50px] w-[250px] rounded-xl" />
+        <Skeleton className="h-[40px] w-full rounded-xl" />
+        <Skeleton className="h-[40px] w-full rounded-xl" />
+        <Skeleton className="h-[40px] w-full rounded-xl" />
       </div>
     );
   }

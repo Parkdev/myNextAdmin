@@ -1,7 +1,7 @@
-import type { NextAuthOptions } from "next-auth";
+import type { NextAuthOptions } from 'next-auth';
 
-import AzureADProvider from "next-auth/providers/azure-ad";
-import CredentialsProvider from "next-auth/providers/credentials";
+import AzureADProvider from 'next-auth/providers/azure-ad';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const options: NextAuthOptions = {
   providers: [
@@ -20,16 +20,16 @@ export const options: NextAuthOptions = {
     }),
     //로그인 이름과 비밀번호로 로그인 (임시)
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "Username" },
-        password: { label: "Password", type: "password" },
+        username: { label: 'Username', type: 'text', placeholder: 'Username' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         const user = {
-          id: "42",
-          name: "test1",
-          password: "test!",
+          id: '42',
+          name: 'test1',
+          password: 'test!',
         };
         if (
           credentials?.username === user.name &&

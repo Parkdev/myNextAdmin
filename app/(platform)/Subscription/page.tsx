@@ -22,7 +22,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
+// 스키마 정의
 const FormSchema = z.object({
   subscription: z.string({
     required_error: 'Please select a correct subscription to submit',
@@ -30,9 +33,30 @@ const FormSchema = z.object({
 });
 
 const SubscriptionPage = () => {
+  // 폼 상태 관리
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  });
+
+  const router = useRouter();
+
+  // 폼 데이터 전송
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    toast({
+      title: '등록 완료',
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-300 p-4">
+          {data.subscription}
+        </pre>
+      ),
+    });
+    // action 추가 이후 이동 필요
+    router.push('VDimages');
+  }
+
   return (
     <div className="h-full w-full flex flex-col justify-center items-center space-y-6">
-      <div className="flex flex-col space-y-2 text-center">
+      <div className="flex flex-col space-y-2 text-center justify-center">
         <h1 className="text-2xl font-bold tracking-tight ">
           Azure 구독 연결하기
         </h1>
@@ -40,12 +64,55 @@ const SubscriptionPage = () => {
           Azure 구독을 연결해주세요
         </p>
       </div>
-      <div className="flex flex-col gap-y-6">
-        <form action="">
-          <div className="grid gap-2">
-            <div className="grid gap-1"></div>
-          </div>
-        </form>
+      <div className="w-full flex flex-col gap-y-6 justify-center items-center">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="max-w-md w-1/2 space-y-6"
+          >
+            <FormField
+              control={form.control}
+              name="subscription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="sr-only">Subscription</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your subscription" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Subscription1">
+                        Subscription1
+                      </SelectItem>
+                      <SelectItem value="Subscription2">
+                        Subscription2
+                      </SelectItem>
+                      <SelectItem value="Subscription3">
+                        Subscription3
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    도움이 필요하시면{' '}
+                    <Link className="underline text-blue-500" href="/docs">
+                      여기를
+                    </Link>{' '}
+                    눌러주세요.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" size="lg" className="w-full">
+              연결하기
+            </Button>
+          </form>
+        </Form>
       </div>
     </div>
   );
