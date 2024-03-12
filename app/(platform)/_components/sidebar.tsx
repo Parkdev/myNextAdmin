@@ -36,7 +36,7 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
     {
       id: '1',
       name: '이미지 관리',
-      url: '/VDimages',
+      url: '/vd-images',
       current: false,
       icon: null,
     },

@@ -38,7 +38,7 @@ export const NavItem = ({ isExpanded, id, name, onExpand }: NavItemProps) => {
     {
       id: '1',
       menus: [
-        { id: '1', name: '모든 이미지', url: '/VDimages', current: false },
+        { id: '1', name: '모든 이미지', url: '/vd-images', current: false },
         { id: '2', name: '삭제된 이미지', url: '/deleted', current: false },
       ],
     },

@@ -20,7 +20,6 @@
 
 html {
   font-family: 'GmarketSans', sans-serif;
-  overflow-y: scroll;
 }
 
 @layer base {

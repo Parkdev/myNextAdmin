@@ -32,23 +32,23 @@ export function DataTableToolbar<TData>({
           onChange={event =>
             table.getColumn('title')?.setFilterValue(event.target.value)
           }
-          className="h-8 w-[150px] lg:w-[250px]"
+          className="h-8 w-[300px] lg:w-[500px]"
         />
-        {table.getColumn('status') && (
+        {/* {table.getColumn('status') && (
           <DataTableFacetedFilter
             column={table.getColumn('status')}
             title="Status"
             options={statuses}
           />
-        )}
-        {table.getColumn('priority') && (
+        )} */}
+        {/* {table.getColumn('priority') && (
           <DataTableFacetedFilter
             column={table.getColumn('priority')}
             title="Priority"
             options={priorities}
           />
-        )}
-        {isFiltered && (
+        )} */}
+        {/* {isFiltered && (
           <Button
             variant="ghost"
             onClick={() => table.resetColumnFilters()}
@@ -57,7 +57,7 @@ export function DataTableToolbar<TData>({
             Reset
             <X className="ml-2 h-4 w-4" />
           </Button>
-        )}
+        )} */}
       </div>
       <DataTableViewOptions table={table} />
     </div>

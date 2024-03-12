@@ -4,9 +4,12 @@ import { z } from 'zod';
 export const taskSchema = z.object({
   id: z.string(),
   title: z.string(),
-  status: z.string(),
-  label: z.string(),
-  priority: z.string(),
+  version: z.string(),
+  modified: z.string(),
+  created: z.string(),
+  // status: z.string(),
+  // label: z.string(),
+  // priority: z.string(),
 });
 // 타입 추론
 export type Task = z.infer<typeof taskSchema>;

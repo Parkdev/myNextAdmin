@@ -18,11 +18,13 @@ export const options: NextAuthOptions = {
       clientId: process.env.AZURE_AD_CLIENT_ID as string,
       clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
       tenantId: process.env.AZURE_AD_TENANT_ID as string,
-      // authorization: {
-      //   params: {
-      //     scope: 'api://7c8a786a-cff2-4375-bc7e-5d7b83bfcb7a/default',
-      //   },
-      // },
+      idToken: true,
+      authorization: {
+        params: {
+          scope:
+            'openid profile email User.Read api://7c8a786a-cff2-4375-bc7e-5d7b83bfcb7a/default',
+        },
+      },
     }),
     //로그인 이름과 비밀번호로 로그인 (임시)
     // CredentialsProvider({
@@ -62,7 +64,7 @@ export const options: NextAuthOptions = {
         session = Object.assign({}, session, {
           access_token: token.access_token,
         });
-        console.log(session);
+        // console.log(session);
       }
       return session;
     },

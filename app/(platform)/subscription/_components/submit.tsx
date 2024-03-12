@@ -35,7 +35,7 @@ const FormSchema = z.object({
   }),
 });
 
-const SubscriptionPage = () => {
+export const SubscriptionForm = () => {
   // 폼 상태 관리
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -70,7 +70,7 @@ const SubscriptionPage = () => {
         },
       )
       .then(res => console.log('success'))
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   }, [session]);
 
   return (
@@ -136,5 +136,3 @@ const SubscriptionPage = () => {
     </div>
   );
 };
-
-export default SubscriptionPage;
