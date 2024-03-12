@@ -27,6 +27,7 @@ import {
 
 import { DataTablePagination } from './table/data-table-pagination';
 import { DataTableToolbar } from './table/data-table-toolbar';
+import { useRouter } from 'next/navigation';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -67,6 +68,12 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  const router = useRouter();
+
+  const onClick = (href: string) => {
+    router.push(href);
+  };
+
   return (
     <div className="space-y-4 w-full">
       <DataTableToolbar table={table} />
@@ -96,6 +103,8 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  onClick={() => {}}
+                  className="cursor-pointer"
                 >
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>

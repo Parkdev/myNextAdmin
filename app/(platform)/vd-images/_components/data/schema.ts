@@ -7,9 +7,7 @@ export const taskSchema = z.object({
   version: z.string(),
   modified: z.string(),
   created: z.string(),
-  // status: z.string(),
-  // label: z.string(),
-  // priority: z.string(),
+  url: z.string(),
 });
 // 타입 추론
 export type Task = z.infer<typeof taskSchema>;
