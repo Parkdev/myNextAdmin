@@ -48,7 +48,11 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'title',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="이미지 명" />
+      <DataTableColumnHeader
+        column={column}
+        title="이미지 명"
+        className="justify-center"
+      />
     ),
     cell: ({ row }) => {
       const label = labels.find(label => label.value === row.original.label);
@@ -66,28 +70,40 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'version',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="마지막 버전" />
+      <DataTableColumnHeader
+        column={column}
+        title="마지막 버전"
+        className="justify-center"
+      />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">{`v. ${row.getValue('version')}`}</div>
+      <div className="w-[80px] text-center">{`v. ${row.getValue('version')}`}</div>
     ),
   },
   {
     accessorKey: 'modified',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="마지막 수정 일자" />
+      <DataTableColumnHeader
+        column={column}
+        title="마지막 수정 일자"
+        className="justify-center"
+      />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">{`${row.getValue('modified')}`}</div>
+      <div className="w-[120px] text-center">{`${row.getValue('modified')}`}</div>
     ),
   },
   {
     accessorKey: 'created',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="생성 일자" />
+      <DataTableColumnHeader
+        column={column}
+        title="생성 일자"
+        className="justify-center"
+      />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">{`${row.getValue('created')}`}</div>
+      <div className="w-[80px] text-center">{`${row.getValue('created')}`}</div>
     ),
   },
   // {

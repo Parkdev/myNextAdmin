@@ -23,14 +23,14 @@ async function getTasks() {
   return z.array(taskSchema).parse(tasks);
 }
 
-const ImagesPage = async () => {
+const VdImagesPage = async () => {
   const tasks = await getTasks();
   const session = await getServerSession(options);
 
   return (
     <>
       {session ? (
-        <div className="px-4 w-3/4 md: flex flex-col">
+        <div className="px-4 w-full md:w-3/4 flex flex-col">
           <div className="w-full flex flex-col gap-y-3">
             <CreateImage />
             <DataTable data={tasks} columns={columns} />
@@ -43,4 +43,4 @@ const ImagesPage = async () => {
   );
 };
 
-export default ImagesPage;
+export default VdImagesPage;
