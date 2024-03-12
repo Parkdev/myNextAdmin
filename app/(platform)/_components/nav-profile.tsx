@@ -77,8 +77,8 @@ export const NavProfile = () => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            {menuItem.map(item => (
-              <DropdownMenuItem className="cursor-pointer">
+            {menuItem.map((item, idx) => (
+              <DropdownMenuItem key={idx} className="cursor-pointer">
                 {item}
               </DropdownMenuItem>
             ))}

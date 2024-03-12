@@ -24,6 +24,9 @@ import {
 } from '@/components/ui/select';
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
 // 스키마 정의
 const FormSchema = z.object({
@@ -51,8 +54,24 @@ const SubscriptionPage = () => {
       ),
     });
     // action 추가 이후 이동 필요
-    router.push('VDimages');
+    // router.push('VDimages');
   }
+
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    axios
+      .get(
+        'https://management.azure.com/subscriptions?api-version=2022-12-01',
+        {
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        },
+      )
+      .then(res => console.log('success'))
+      .catch(err => console.log(err));
+  }, [session]);
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center space-y-6">
