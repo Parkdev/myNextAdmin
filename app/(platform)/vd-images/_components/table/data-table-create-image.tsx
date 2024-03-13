@@ -16,7 +16,7 @@ export function CreateImage() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size="">+ 새 이미지 생성</Button>
+        <Button>+ 새 이미지 생성</Button>
       </SheetTrigger>
       <SheetContent className="w-full sm:w-[540px]">
         <SheetHeader>

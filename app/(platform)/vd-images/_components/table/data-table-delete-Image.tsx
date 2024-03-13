@@ -1,4 +1,7 @@
 import { Button } from '@/components/ui/button';
+
+import { Table } from '@tanstack/react-table';
+
 import {
   Dialog,
   DialogClose,
@@ -10,12 +13,23 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const DeleteImage = () => {
+interface DataTableToolbarProps<TData> {
+  table: Table<TData>;
+}
+
+export function DeleteImage<TData>({ table }: DataTableToolbarProps<TData>) {
+  if (!table.getSelectedRowModel().rows.length) return null;
+
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="destructive">- 이미지 삭제</Button>
+          <Button
+            variant="destructive"
+            onClick={() => console.log(table.getSelectedRowModel())}
+          >
+            - 이미지 삭제
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -26,7 +40,14 @@ export const DeleteImage = () => {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-center">
-            <Button type="submit">삭제</Button>
+            <DialogClose asChild>
+              <Button
+                type="submit"
+                onClick={() => console.log('삭제로직 진행')}
+              >
+                삭제
+              </Button>
+            </DialogClose>
             <DialogClose asChild>
               <Button type="button" variant="secondary">
                 닫기
@@ -37,4 +58,4 @@ export const DeleteImage = () => {
       </Dialog>
     </>
   );
-};
+}

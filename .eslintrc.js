@@ -7,10 +7,12 @@ module.exports = {
     node: true,
   },
   extends: [
-    'airbnb',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'airbnb',
+    'airbnb-typescript',
+    'next/core-web-vitals',
   ],
   parser: '@typescript-eslint/parser',
   rules: {

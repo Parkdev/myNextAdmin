@@ -84,13 +84,11 @@ export const NavItem = ({ isExpanded, id, name, onExpand }: NavItemProps) => {
       <AccordionItem value={id} className="border-none">
         <AccordionTrigger
           onClick={() => onExpand(id)}
-          className={`flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline`}
+          className={`${!isExpanded && 'bg-sky-500/10 text-sky-700'} flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline `}
         >
           <div className="flex items-center gap-x-3">
             <div className="bg-gray-500 rounded-lg p-2 relative">
-              <Notebook
-                className={`${!isExpanded && 'bg-sky-500/10 text-sky-700'} h-4 w-4 text-white`}
-              />
+              <Notebook className={`h-4 w-4 text-white`} />
             </div>
             <span>{name}</span>
           </div>

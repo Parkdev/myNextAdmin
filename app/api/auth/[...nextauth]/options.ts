@@ -1,14 +1,12 @@
-import type { NextAuthOptions } from 'next-auth';
-import { DefaultSession } from 'next-auth';
-import { Session } from 'next-auth';
+import { DefaultSession, Session, NextAuthOptions } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 
 import AzureADProvider from 'next-auth/providers/azure-ad';
-import CredentialsProvider from 'next-auth/providers/credentials';
+// import CredentialsProvider from 'next-auth/providers/credentials';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
-    access_token: string;
+    access_token: string | unknown;
   }
 }
 
@@ -51,21 +49,20 @@ export const options: NextAuthOptions = {
     // }),
   ],
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account }): Promise<JWT> {
       if (account) {
-        token = Object.assign({}, token, {
-          access_token: account.access_token,
-        });
+        token.access_token = account.access_token;
       }
       return token;
     },
-    async session({ session, token }) {
-      if (session) {
-        session = Object.assign({}, session, {
-          access_token: token.access_token,
-        });
-        // console.log(session);
-      }
+    async session({
+      session,
+      token,
+    }: {
+      session: Session;
+      token: JWT;
+    }): Promise<Session> {
+      session.access_token = token.access_token;
       return session;
     },
   },
