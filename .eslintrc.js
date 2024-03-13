@@ -7,12 +7,13 @@ module.exports = {
     node: true,
   },
   extends: [
+    'next/core-web-vitals',
+    'prettier',
+    'airbnb',
+    'airbnb-typescript',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'airbnb',
-    'airbnb-typescript',
-    'next/core-web-vitals',
   ],
   parser: '@typescript-eslint/parser',
   rules: {
