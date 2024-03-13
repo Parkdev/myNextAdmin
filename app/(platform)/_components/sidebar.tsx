@@ -49,7 +49,7 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
     },
     {
       id: '3',
-      name: '데이터 보존 정책책',
+      name: '데이터 보존 정책',
       url: '/policies',
       current: false,
       icon: null,
