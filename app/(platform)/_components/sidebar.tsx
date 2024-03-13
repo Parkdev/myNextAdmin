@@ -102,10 +102,11 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
         defaultValue={defaultAccordionValue}
         className="space-y-2"
       >
-        {boards.map(board => (
+        {boards.map((board, idx) => (
           <NavItem
             key={board.id}
-            id={board.url}
+            mainId={board.id}
+            idx={idx}
             name={board.name}
             isExpanded={expanded[board.id]}
             onExpand={onExpand}
