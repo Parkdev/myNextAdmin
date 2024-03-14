@@ -20,6 +20,7 @@ import {
 
 import { labels } from '../data/data';
 import { taskSchema } from '../data/schema';
+import { DialogTrigger } from '@/components/ui/dialog';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -47,8 +48,11 @@ export function DataTableRowActions<TData>({
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+          <DialogTrigger asChild>
+            <Button size="sm" variant="ghost" className="h-auto p-0">
+              Delete
+            </Button>
+          </DialogTrigger>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

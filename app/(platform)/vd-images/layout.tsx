@@ -1,3 +1,4 @@
+import { BreadcrumbComponent } from '../_components/breadcrumb';
 import { Sidebar } from '../_components/sidebar';
 
 const VdimageLayout = ({ children }: { children: React.ReactNode }) => {
@@ -8,7 +9,12 @@ const VdimageLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="w-64 shrink-0 hidden md:block">
             <Sidebar />
           </div>
-          {children}
+          <div className="px-4 w-full md:w-3/4 flex flex-col">
+            <div className="w-full flex flex-col gap-y-3">
+              <BreadcrumbComponent />
+              {children}
+            </div>
+          </div>
         </div>
       </main>
     </>

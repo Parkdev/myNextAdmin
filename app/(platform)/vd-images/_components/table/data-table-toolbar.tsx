@@ -19,22 +19,22 @@ export function DataTableToolbar<TData>({
 
   return (
     <div className="flex flex-col gap-y-3">
-      <div className="flex gap-x-3">
-        <CreateImage />
-        <DeleteImage table={table} />
-      </div>
       <div className="flex items-center justify-between">
-        <div className="flex flex-1 items-center space-x-2">
+        <div className="flex items-center space-x-2">
           <Input
             placeholder="타이틀 검색"
             value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
             onChange={event =>
               table.getColumn('title')?.setFilterValue(event.target.value)
             }
-            className="h-8 w-[300px] lg:w-[500px]"
+            className="h-9 w-[300px] lg:w-[500px]"
           />
+          <CreateImage />
+          <DeleteImage table={table} />
         </div>
-        <DataTableViewOptions table={table} />
+        <div className="flex items-center space-x-2">
+          <DataTableViewOptions table={table} />
+        </div>
       </div>
     </div>
   );

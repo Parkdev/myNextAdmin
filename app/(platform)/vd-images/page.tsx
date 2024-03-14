@@ -8,7 +8,6 @@ import path from 'path';
 import { columns } from './_components/columns';
 import { DataTable } from './_components/data-table';
 import { taskSchema } from './_components/data/schema';
-import { BreadcrumbComponent } from '../_components/breadcrumb';
 
 async function getTasks() {
   const data = await fs.readFile(
@@ -30,13 +29,10 @@ const VdImagesPage = async () => {
   return (
     <>
       {session ? (
-        <div className="px-4 w-full md:w-3/4 flex flex-col">
-          <div className="w-full flex flex-col gap-y-3">
-            <BreadcrumbComponent />
-            <h1 className="text-2xl font-bold">모든 이미지</h1>
-            <DataTable data={tasks} columns={columns} />
-          </div>
-        </div>
+        <>
+          <h1 className="text-2xl font-bold">모든 이미지</h1>
+          <DataTable data={tasks} columns={columns} />
+        </>
       ) : (
         <div>You are not logged in</div>
       )}
