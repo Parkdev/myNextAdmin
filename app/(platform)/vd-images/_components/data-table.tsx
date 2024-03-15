@@ -25,8 +25,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { DataTablePagination } from './table/data-table-pagination';
-import { DataTableToolbar } from './table/data-table-toolbar';
+import { DataTablePagination } from '@/components/table/data-table-pagination';
+import { DataTableToolbar } from '@/components/table/data-table-toolbar';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 

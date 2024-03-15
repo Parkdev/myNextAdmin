@@ -21,6 +21,10 @@ export function DataTableToolbar<TData>({
 
   return (
     <div className="flex flex-col gap-y-3">
+      <div className="flex items-center space-x-2">
+        <CreateImage btnText={btnText} />
+        <DeleteImage table={table} />
+      </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Input
@@ -31,8 +35,6 @@ export function DataTableToolbar<TData>({
             }
             className="h-9 w-[300px] lg:w-[500px]"
           />
-          <CreateImage btnText={btnText} />
-          <DeleteImage table={table} />
         </div>
         <div className="flex items-center space-x-2">
           <DataTableViewOptions table={table} />

@@ -25,8 +25,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { DataTablePagination } from './table/data-table-pagination';
-import { DataTableToolbar } from './table/data-table-toolbar';
+import { DataTablePagination } from '@/components/table/data-table-pagination';
+import { DataTableToolbar } from '@/components/table/data-table-toolbar';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -71,20 +71,13 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const clickRoute = (href: string) => {
-    router.push(`${pathname}/${href}`);
-  };
-
   return (
     <div className="space-y-4 w-full">
       <Dialog>
         <DataTableToolbar table={table} btnText="버전" />
         <div className="rounded-md border">
           <Table>
-            <TableHeader>
+            <TableHeader className="whitespace-nowrap">
               {table.getHeaderGroups().map(headerGroup => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map(header => {
@@ -110,18 +103,7 @@ export function DataTable<TData, TValue>({
                     data-state={row.getIsSelected() && 'selected'}
                   >
                     {row.getVisibleCells().map(cell => (
-                      <TableCell
-                        key={cell.id}
-                        className={
-                          cell.id.endsWith('title') ? 'cursor-pointer' : ''
-                        }
-                        onClick={
-                          cell.id.endsWith('title')
-                            ? () =>
-                                clickRoute((row.original as { id: string }).id)
-                            : undefined
-                        }
-                      >
+                      <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),

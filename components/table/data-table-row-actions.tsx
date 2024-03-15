@@ -18,18 +18,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { labels } from '../data/data';
-import { taskSchema } from '../data/schema';
 import { DialogTrigger } from '@/components/ui/dialog';
+// import { Task } from '@/app/(platform)/vd-images/_components/data/schema';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
+  Schema: any;
 }
 
 export function DataTableRowActions<TData>({
   row,
+  Schema,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original);
+  const task = Schema.parse(row.original);
 
   return (
     <DropdownMenu>

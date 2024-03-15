@@ -1,29 +1,29 @@
 import { z } from 'zod';
 
-import { nextAuthOptions } from '../../api/auth/[...nextauth]/options';
+import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 
 import { promises as fs } from 'fs';
 import path from 'path';
 import { columns } from './_components/columns';
 import { DataTable } from './_components/data-table';
-import { taskSchema } from './_components/data/schema';
+import { VdImagesSchema } from './_components/data/schema';
 
-async function getTasks() {
+async function getData() {
   const data = await fs.readFile(
     path.join(
       process.cwd(),
-      'app/(platform)/vd-images/_components/data/tasks.json',
+      'app/(platform)/vd-images/_components/data/imgList.json',
     ),
   );
 
-  const tasks = JSON.parse(data.toString());
+  const imgData = JSON.parse(data.toString());
 
-  return z.array(taskSchema).parse(tasks);
+  return z.array(VdImagesSchema).parse(imgData);
 }
 
 const VdImagesPage = async () => {
-  const tasks = await getTasks();
+  const imgData = await getData();
   const session = await getServerSession(nextAuthOptions);
 
   return (
@@ -31,7 +31,7 @@ const VdImagesPage = async () => {
       {session ? (
         <>
           <h1 className="text-2xl font-bold">모든 이미지</h1>
-          <DataTable data={tasks} columns={columns} />
+          <DataTable data={imgData} columns={columns} />
         </>
       ) : (
         <div>You are not logged in</div>

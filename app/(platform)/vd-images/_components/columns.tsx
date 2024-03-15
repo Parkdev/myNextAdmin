@@ -4,12 +4,13 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { Task } from './data/schema';
-import { DataTableColumnHeader } from './table/data-table-column-header';
-import { DataTableRowActions } from './table/data-table-row-actions';
+import { VdImages } from './data/schema';
+import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
+import { DataTableRowActions } from '@/components/table/data-table-row-actions';
 import { useRouter, usePathname } from 'next/navigation';
+import { VdImagesSchema } from './data/schema';
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<VdImages>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -45,9 +46,7 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div
-          className="relative flex space-x-2 cursor-pointer"
-        >
+        <div className="relative flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
             {row.getValue('title')}
           </span>
@@ -104,9 +103,11 @@ export const columns: ColumnDef<Task>[] = [
         className="ml-[2px] justify-center"
       />
     ),
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+
+    cell: ({ row }) => (
+      <DataTableRowActions row={row} Schema={VdImagesSchema} />
+    ),
     enableSorting: false,
     enableHiding: false,
   },
-  { id: 'url' },
 ];
