@@ -1,4 +1,6 @@
+import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/options';
 import axios from 'axios';
+import { Session, getServerSession } from 'next-auth';
 import { getSession } from 'next-auth/react';
 
 const GreenStoneApiClient = axios.create({
@@ -7,7 +9,12 @@ const GreenStoneApiClient = axios.create({
 
 GreenStoneApiClient.interceptors.request.use(
   async config => {
-    const session = await getSession();
+    let session: Session | null;
+    if (process.browser ? false : true) {
+      session = await getServerSession(nextAuthOptions);
+    } else {
+      session = await getSession();
+    }
 
     // 요청 전 공통적으로 처리할 작업을 여기에 추가합니다.
     // 예를 들어, 토큰을 헤더에 추가하는 작업 등을 할 수 있습니다.
@@ -31,7 +38,7 @@ GreenStoneApiClient.interceptors.response.use(
   },
   error => {
     // 응답 후 에러 처리를 여기에 추가합니다.
-    console.error(error);
+    // console.error(error);
     return Promise.reject(error);
   },
 );

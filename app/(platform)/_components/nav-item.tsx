@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Notebook } from 'lucide-react';
 import { MyBoard } from './sidebar';
 import { useState } from 'react';
+import { Item } from '@radix-ui/react-dropdown-menu';
 
 interface NavItemProps {
   mainId: string;
@@ -80,7 +81,7 @@ export const NavItem = ({
     },
   ]);
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = '/' + usePathname().split('/').filter(Boolean)[0];
 
   const onClick = (href: string) => {
     router.push(href);

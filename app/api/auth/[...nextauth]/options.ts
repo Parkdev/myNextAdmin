@@ -10,7 +10,7 @@ declare module 'next-auth' {
   }
 }
 
-export const options: NextAuthOptions = {
+export const nextAuthOptions: NextAuthOptions = {
   providers: [
     AzureADProvider({
       clientId: process.env.AZURE_AD_CLIENT_ID as string,
