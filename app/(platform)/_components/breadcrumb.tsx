@@ -12,8 +12,13 @@ import {
 } from '@/components/ui/breadcrumb';
 import { useState } from 'react';
 import { HomeIcon } from 'lucide-react';
+import Link from 'next/link';
 
-export function BreadcrumbComponent() {
+interface BreadcrumbComponentProps {
+  title: string;
+}
+
+export function BreadcrumbComponent({ title }: BreadcrumbComponentProps) {
   const pathArray = usePathname().split('/').filter(Boolean);
 
   const [matchUrl] = useState([
@@ -35,17 +40,22 @@ export function BreadcrumbComponent() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">
-            <HomeIcon className="h-4 w-4" />
+          <BreadcrumbLink asChild>
+            <Link href="/">
+              <HomeIcon className="h-4 w-4" />
+            </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         {pathArray.map((path, idx) => {
           const isLast = idx === pathArray.length - 1;
-          const title = matchUrl.find(itm => itm.url === path)?.name;
+          const defaultTitle = matchUrl.find(itm => itm.url === path)?.name;
+          const url = '/' + pathArray.slice(0, idx + 1).join('/');
           return (
             <BreadcrumbItem key={path}>
-              <BreadcrumbLink href={`/${path}`}>{title || path}</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link href={url}>{defaultTitle || title || path}</Link>
+              </BreadcrumbLink>
               {!isLast && <BreadcrumbSeparator />}
             </BreadcrumbItem>
           );

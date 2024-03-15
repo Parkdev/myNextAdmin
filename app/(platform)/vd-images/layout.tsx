@@ -1,7 +1,7 @@
 import { BreadcrumbComponent } from '../_components/breadcrumb';
 import { Sidebar } from '../_components/sidebar';
 
-const VdimageLayout = ({ children }: { children: React.ReactNode }) => {
+const VdImageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <main className="py-10 px-4 mx-auto">
@@ -11,7 +11,7 @@ const VdimageLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
           <div className="px-4 w-full md:w-3/4 flex flex-col">
             <div className="w-full flex flex-col gap-y-3">
-              <BreadcrumbComponent />
+              <BreadcrumbComponent title="" />
               {children}
             </div>
           </div>
@@ -21,4 +21,4 @@ const VdimageLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default VdimageLayout;
+export default VdImageLayout;
