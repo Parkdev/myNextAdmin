@@ -12,11 +12,15 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 
-export function CreateImage() {
+interface CreateImageProps {
+  btnText: string;
+}
+
+export function CreateImage({ btnText }: CreateImageProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size="sm">+ 새 이미지 생성</Button>
+        <Button size="sm">+ 새 {btnText} 생성</Button>
       </SheetTrigger>
       <SheetContent className="w-full sm:w-[540px]">
         <SheetHeader>

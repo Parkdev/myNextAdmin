@@ -81,7 +81,7 @@ export const NavItem = ({
     },
   ]);
   const router = useRouter();
-  const pathname = '/' + usePathname().split('/').filter(Boolean)[0];
+  const pathname = '/' + usePathname().split('/')[1];
 
   const onClick = (href: string) => {
     router.push(href);

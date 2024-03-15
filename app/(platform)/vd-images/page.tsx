@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { options } from '../../api/auth/[...nextauth]/options';
+import { nextAuthOptions } from '../../api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 
 import { promises as fs } from 'fs';
@@ -24,7 +24,7 @@ async function getTasks() {
 
 const VdImagesPage = async () => {
   const tasks = await getTasks();
-  const session = await getServerSession(options);
+  const session = await getServerSession(nextAuthOptions);
 
   return (
     <>

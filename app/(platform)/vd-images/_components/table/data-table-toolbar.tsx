@@ -10,10 +10,12 @@ import { DeleteImage } from './data-table-delete-Image';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  btnText: string;
 }
 
 export function DataTableToolbar<TData>({
   table,
+  btnText,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -29,7 +31,7 @@ export function DataTableToolbar<TData>({
             }
             className="h-9 w-[300px] lg:w-[500px]"
           />
-          <CreateImage />
+          <CreateImage btnText={btnText} />
           <DeleteImage table={table} />
         </div>
         <div className="flex items-center space-x-2">

@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
-import { options } from '@/app/api/auth/[...nextauth]/options';
+import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/options';
 
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { NavProfile } from './nav-profile';
 
 export const Navbar = async () => {
-  const session = await getServerSession(options);
+  const session = await getServerSession(nextAuthOptions);
 
   return (
     <div className="z-50 top-0 w-full h-14 px-4 border-b shadow-sm bg-white flex items-center">

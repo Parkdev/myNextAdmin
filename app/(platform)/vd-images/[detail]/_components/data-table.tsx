@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="space-y-4 w-full">
       <Dialog>
-        <DataTableToolbar table={table} btnText="이미지" />
+        <DataTableToolbar table={table} btnText="버전" />
         <div className="rounded-md border">
           <Table>
             <TableHeader>

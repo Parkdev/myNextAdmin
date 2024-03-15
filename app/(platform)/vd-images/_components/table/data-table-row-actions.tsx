@@ -43,14 +43,12 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
+        <DropdownMenuItem>수정</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <DialogTrigger asChild>
             <Button size="sm" variant="ghost" className="h-auto p-0">
-              Delete
+              삭제
             </Button>
           </DialogTrigger>
         </DropdownMenuItem>
