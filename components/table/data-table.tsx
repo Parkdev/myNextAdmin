@@ -38,12 +38,14 @@ interface UrlParam {
 }
 
 interface DataTableProps<TData, TValue> {
+  title: string;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   url: UrlParam;
 }
 
 export function DataTable<TData, TValue>({
+  title,
   columns,
   data,
   url,
@@ -93,7 +95,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="space-y-4 w-full">
       <Dialog>
-        <DataTableToolbar table={table} btnText="이미지" />
+        <DataTableToolbar table={table} btnText={title} />
         <div className="rounded-md border">
           <Table>
             <TableHeader>

@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { columns } from './_components/columns';
-import { DataTable } from './_components/data-table';
+import { DataTable } from '@/components/table/data-table';
 import { imgDetailSchema } from './_components/data/schema';
 
 async function getData() {
@@ -25,13 +25,19 @@ async function getData() {
 const VdImagesPage = async () => {
   const details = await getData();
   const session = await getServerSession(nextAuthOptions);
+  const btnTitle = '버전';
 
   return (
     <>
       {session ? (
         <>
           <h1 className="text-2xl font-bold">이미지 상세</h1>
-          <DataTable data={details} columns={columns} />
+          <DataTable
+            data={details}
+            columns={columns}
+            url={{ url_id: '', url: '' }}
+            title={btnTitle}
+          />
         </>
       ) : (
         <div>You are not logged in</div>
