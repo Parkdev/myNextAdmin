@@ -45,14 +45,6 @@ export const SubscriptionForm = () => {
 
   // 폼 데이터 전송
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: '등록 완료',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-300 p-4">
-          {data.subscription}
-        </pre>
-      ),
-    });
     // action 추가 이후 이동 필요
     // router.push('VDimages');
   }

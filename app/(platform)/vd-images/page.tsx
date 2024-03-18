@@ -31,7 +31,11 @@ const VdImagesPage = async () => {
       {session ? (
         <>
           <h1 className="text-2xl font-bold">모든 이미지</h1>
-          <DataTable data={imgData} columns={columns} />
+          <DataTable
+            data={imgData}
+            columns={columns}
+            url={{ url_id: 'version', url: '/test2' }}
+          />
         </>
       ) : (
         <div>You are not logged in</div>

@@ -32,14 +32,21 @@ import Link from 'next/link';
 
 import { Dialog } from '@/components/ui/dialog';
 
+interface UrlParam {
+  url_id: string;
+  url: string;
+}
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  url: UrlParam;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  url,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -78,6 +85,11 @@ export function DataTable<TData, TValue>({
     router.push(`${pathname}/${href}`);
   };
 
+  // const [url] = React.useState({
+  //   url_id: 'version',
+  //   url: '/test2',
+  // });
+
   return (
     <div className="space-y-4 w-full">
       <Dialog>
@@ -109,25 +121,25 @@ export function DataTable<TData, TValue>({
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
                   >
-                    {row.getVisibleCells().map(cell => (
-                      <TableCell
-                        key={cell.id}
-                        className={
-                          cell.id.endsWith('title') ? 'cursor-pointer' : ''
-                        }
-                        onClick={
-                          cell.id.endsWith('title')
-                            ? () =>
-                                clickRoute((row.original as { id: string }).id)
-                            : undefined
-                        }
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
+                    {row.getVisibleCells().map(cell => {
+                      const isUrl = cell.id.endsWith(url.url_id);
+                      const customUrl =
+                        url.url || (row.original as { id: string }).id;
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          className={isUrl ? 'cursor-pointer' : ''}
+                          onClick={
+                            isUrl ? () => clickRoute(customUrl) : undefined
+                          }
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))
               ) : (
