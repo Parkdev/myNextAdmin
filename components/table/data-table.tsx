@@ -87,11 +87,6 @@ export function DataTable<TData, TValue>({
     router.push(`${pathname}/${href}`);
   };
 
-  // const [url] = React.useState({
-  //   url_id: 'version',
-  //   url: '/test2',
-  // });
-
   return (
     <div className="space-y-4 w-full">
       <Dialog>
