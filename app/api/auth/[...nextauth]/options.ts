@@ -20,7 +20,7 @@ export const nextAuthOptions: NextAuthOptions = {
       authorization: {
         params: {
           scope:
-            'openid profile email User.Read api://7c8a786a-cff2-4375-bc7e-5d7b83bfcb7a/default',
+            'openid profile email User.Read api://7c8a786a-cff2-4375-bc7e-5d7b83bfcb7a/.default',
         },
       },
     }),

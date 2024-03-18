@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -63,6 +64,7 @@ const wait = () => new Promise(resolve => setTimeout(resolve, 1000));
 
 export function CreateImage({ btnText }: CreateImageProps) {
   const [open, setOpen] = useState(false);
+  const [subscribeList] = useState(['구독1', '구독2', '구독3']);
 
   const form = useForm<z.infer<typeof subscribeFormSchema>>({
     resolver: zodResolver(subscribeFormSchema),
@@ -71,32 +73,37 @@ export function CreateImage({ btnText }: CreateImageProps) {
     },
   });
 
+  function onSubmit(values: z.infer<typeof subscribeFormSchema>) {
+    console.log(values);
+  }
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button size="sm">+ 새 {btnText} 생성</Button>
       </SheetTrigger>
       <SheetContent className="w-full sm:w-[540px]">
-        <SheetHeader>
+        <SheetHeader className="mb-4">
           <SheetTitle>{btnText} 생성</SheetTitle>
           <SheetDescription>
             생성할 {btnText}의 상세 정보를 입력하세요.
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="imageName"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="이미지 1" {...field} />
-                  </FormControl>
-                  <FormDescription>이미지를 입력해주세요</FormDescription>
-                  <FormMessage />
-                </FormItem>
+                <>
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="이미지 1" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                </>
               )}
             />
             <FormField
@@ -104,11 +111,14 @@ export function CreateImage({ btnText }: CreateImageProps) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Bio</FormLabel>
                   <FormControl>
-                    <Input placeholder="" {...field} />
+                    <Textarea
+                      placeholder="Tell us a little bit about yourself"
+                      className="resize-none"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>설명을 입력해주세요</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -118,25 +128,24 @@ export function CreateImage({ btnText }: CreateImageProps) {
               name="subscribe"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="이미지 1" {...field} />
-                  </FormControl>
-                  <FormDescription>이미지를 입력해주세요</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="imageName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="이미지 1" {...field} />
-                  </FormControl>
-                  <FormDescription>이미지를 입력해주세요</FormDescription>
+                  <FormLabel>Email</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a verified email to display" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {subscribeList.map((subscribe, idx) => (
+                        <SelectItem key={idx} value={subscribe}>
+                          {subscribe}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -144,24 +153,7 @@ export function CreateImage({ btnText }: CreateImageProps) {
             <Button type="submit">Submit</Button>
           </form>
         </Form>
-        <form>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              이미지 이름
-            </Label>
-            <Input id="name" value="이름" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              설명
-            </Label>
-            <Input
-              id="username"
-              value="설명을 입력해주세요"
-              className="col-span-3"
-            />
-          </div>
-        </form>
+
         <SheetFooter>
           <SheetClose asChild>
             <Button type="submit">저장하기</Button>
