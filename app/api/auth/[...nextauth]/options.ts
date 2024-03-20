@@ -10,6 +10,15 @@ declare module 'next-auth' {
   }
 }
 
+const Scopes = [
+  'VDIWorkspaces.Read.All',
+  'VDIWorkspaces.ReadWrite.All',
+  'VMImages.Read.All',
+  'VMImages.ReadWrite.All',
+  'VMImageVersions.Read.All',
+  'VMImageVersions.ReadWrite.All',
+];
+
 export const nextAuthOptions: NextAuthOptions = {
   providers: [
     AzureADProvider({
@@ -19,11 +28,23 @@ export const nextAuthOptions: NextAuthOptions = {
       idToken: true,
       authorization: {
         params: {
-          scope:
-            'openid profile email User.Read api://7c8a786a-cff2-4375-bc7e-5d7b83bfcb7a/.default',
+          scope: `openid profile email User.Read ${Scopes.map(
+            scope => `api://7c8a786a-cff2-4375-bc7e-5d7b83bfcb7a/${scope}`,
+          ).join(' ')}`,
+          //   withExtraScopeToConsent:
+          //     'api://7c8a786a-cff2-4375-bc7e-5d7b83bfcb7a/.default',
         },
       },
     }),
+
+    // https://login.microsoftonline.com/
+    //common/oauth2/v2.0/
+    //authorize?client_id=7c8a786a-cff2-4375-bc7e-5d7b83bfcb7a&
+    //scope=openid%20profile%20email%20User.Read&
+    //response_type=code&
+    //redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fauth%2Fcallback%2F//
+    //azure-ad&state=X-7HTx8cXPGAq4MAas9Nb5DAUVlEmAXAhk1rKCoqF-Q
+
     //로그인 이름과 비밀번호로 로그인 (임시)
     // CredentialsProvider({
     //   name: 'Credentials',
@@ -53,6 +74,8 @@ export const nextAuthOptions: NextAuthOptions = {
       if (account) {
         token.access_token = account.access_token;
       }
+      console.log('account', account);
+      console.log('token', token);
       return token;
     },
     async session({

@@ -5,7 +5,6 @@ import type {
   InferGetServerSidePropsType,
 } from 'next';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../(auth)/api/auth/[...nextauth]';
 
 import { signIn, useSession, getProviders } from 'next-auth/react';
 import { useRouter } from 'next/navigation';

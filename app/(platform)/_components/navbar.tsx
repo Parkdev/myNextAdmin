@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
-import { nextAuthOptions } from '@/app/(auth)/api/auth/[...nextauth]/options';
+import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/options';
 
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';

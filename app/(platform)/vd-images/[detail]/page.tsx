@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { nextAuthOptions } from '@/app/(auth)/api/auth/[...nextauth]/options';
+import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 
 import { promises as fs } from 'fs';
