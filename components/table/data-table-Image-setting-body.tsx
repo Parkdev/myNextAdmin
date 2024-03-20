@@ -57,7 +57,7 @@ interface CreateImageProps {
 
 // const wait = () => new Promise(resolve => setTimeout(resolve, 1000));
 
-export function CreateImage({ btnText }: CreateImageProps) {
+export function ImageSettingBody({ btnText }: CreateImageProps) {
   const [open, setOpen] = useState(false);
   const [subscribeList] = useState(['구독1', '구독2', '구독3']);
 
@@ -82,87 +82,87 @@ export function CreateImage({ btnText }: CreateImageProps) {
 
   return (
     <>
-      <Sheet open={open} onOpenChange={setOpen}>
+      {/* <Sheet open={open} onOpenChange={setOpen}>
         <Button size="sm" onClick={() => setOpen(true)}>
           + 새 {btnText} 생성
-        </Button>
-        <SheetContent className="w-full sm:w-[540px]">
-          <SheetHeader className="mb-4">
-            <SheetTitle>{btnText} 생성</SheetTitle>
-            <SheetDescription>
-              생성할 {btnText}의 상세 정보를 입력하세요.
-            </SheetDescription>
-          </SheetHeader>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="subscribe"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>구독</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="구독을 선택해주세요" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {subscribeList.map((subscribe, idx) => (
-                          <SelectItem key={idx} value={subscribe}>
-                            {subscribe}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="imageName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>이미지명</FormLabel>
+        </Button> */}
+      <SheetContent className="w-full sm:w-[540px]">
+        <SheetHeader className="mb-4">
+          <SheetTitle>{btnText} 생성</SheetTitle>
+          <SheetDescription>
+            생성할 {btnText}의 상세 정보를 입력하세요.
+          </SheetDescription>
+        </SheetHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="subscribe"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>구독</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
-                      <Input
-                        placeholder="이미지 이름을 입력해주세요"
-                        {...field}
-                      />
+                      <SelectTrigger>
+                        <SelectValue placeholder="구독을 선택해주세요" />
+                      </SelectTrigger>
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>설명</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder=""
-                        className="resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                    <SelectContent>
+                      {subscribeList.map((subscribe, idx) => (
+                        <SelectItem key={idx} value={subscribe}>
+                          {subscribe}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="imageName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>이미지명</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="이미지 이름을 입력해주세요"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>설명</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder=""
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <SheetFooter>
-                <Button type="submit">생성</Button>
-              </SheetFooter>
-            </form>
-          </Form>
-        </SheetContent>
-      </Sheet>
+            <SheetFooter>
+              <Button type="submit">생성</Button>
+            </SheetFooter>
+          </form>
+        </Form>
+      </SheetContent>
+      {/* </Sheet> */}
     </>
   );
 }
