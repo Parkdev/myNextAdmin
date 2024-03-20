@@ -158,9 +158,9 @@ export function CreateImage({ btnText }: CreateImageProps) {
               )}
             />
 
-            {/* <SheetFooter> */}
-            <Button type="submit">생성</Button>
-            {/* </SheetFooter> */}
+            <SheetFooter>
+              <Button type="submit">생성</Button>
+            </SheetFooter>
           </form>
         </Form>
       </SheetContent>

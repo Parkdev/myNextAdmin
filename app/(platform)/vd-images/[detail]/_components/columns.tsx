@@ -157,4 +157,23 @@ export const columns: ColumnDef<ImgDetail>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+  {
+    id: 'actions',
+    accessorKey: 'action',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="설정"
+        className="justify-center"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <div className="flex justify-center">
+        <DataTableRowActions row={row} Schema={imgDetailSchema} />
+      </div>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
 ];

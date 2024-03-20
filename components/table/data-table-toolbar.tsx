@@ -7,6 +7,7 @@ import { DataTableViewOptions } from './data-table-view-options';
 
 import { CreateImage } from './data-table-create-image';
 import { DeleteImage } from './data-table-delete-Image';
+import { CreateVersion } from './data-table-create-version';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -22,8 +23,13 @@ export function DataTableToolbar<TData>({
   return (
     <div className="flex flex-col gap-y-3">
       <div className="flex items-center space-x-2">
-        <CreateImage btnText={btnText} />
-        <DeleteImage table={table} />
+        {
+          {
+            이미지: <CreateImage btnText={btnText} />,
+            버전: <CreateVersion btnText={btnText} />,
+          }[btnText]
+        }
+        <DeleteImage btnText={btnText} table={table} />
       </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">

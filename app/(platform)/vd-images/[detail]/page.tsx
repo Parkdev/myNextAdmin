@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/options';
+import { nextAuthOptions } from '@/app/(auth)/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 
 import { promises as fs } from 'fs';
@@ -32,12 +32,7 @@ const VdImagesPage = async () => {
       {session ? (
         <>
           <h1 className="text-2xl font-bold">이미지 상세</h1>
-          <DataTable
-            data={details}
-            columns={columns}
-            url={{ url_id: '', url: '' }}
-            title={btnTitle}
-          />
+          <DataTable data={details} columns={columns} title={btnTitle} />
         </>
       ) : (
         <div>You are not logged in</div>

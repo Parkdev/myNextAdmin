@@ -41,7 +41,7 @@ interface DataTableProps<TData, TValue> {
   title: string;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  url: UrlParam;
+  url?: UrlParam;
 }
 
 export function DataTable<TData, TValue>({
@@ -119,15 +119,19 @@ export function DataTable<TData, TValue>({
                     data-state={row.getIsSelected() && 'selected'}
                   >
                     {row.getVisibleCells().map(cell => {
-                      const isUrl = cell.id.endsWith(url.url_id);
-                      const customUrl =
-                        url.url || (row.original as { id: string }).id;
+                      let isMatch, customUrl: string;
+                      if (url) {
+                        isMatch = cell.id.endsWith(url.url_id);
+                        customUrl =
+                          url.url || (row.original as { id: string }).id;
+                      }
+
                       return (
                         <TableCell
                           key={cell.id}
-                          className={isUrl ? 'cursor-pointer' : ''}
+                          className={isMatch ? 'cursor-pointer' : ''}
                           onClick={
-                            isUrl ? () => clickRoute(customUrl) : undefined
+                            isMatch ? () => clickRoute(customUrl) : undefined
                           }
                         >
                           {flexRender(

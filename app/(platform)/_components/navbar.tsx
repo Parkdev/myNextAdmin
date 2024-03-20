@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
-import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/options';
+import { nextAuthOptions } from '@/app/(auth)/api/auth/[...nextauth]/options';
 
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,7 @@ export const Navbar = async () => {
   const session = await getServerSession(nextAuthOptions);
 
   return (
-    <div className="z-50 top-0 w-full h-14 px-4 border-b shadow-sm bg-white flex items-center">
+    <div className="sticky z-50 top-0 h-14 border-b w-full bg-white flex items-center">
       <div className="max-w-screen-2xl mx-auto flex items-center w-full justify-between">
         <Logo />
         <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">

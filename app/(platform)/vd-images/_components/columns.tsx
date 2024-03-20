@@ -100,12 +100,14 @@ export const columns: ColumnDef<VdImages>[] = [
       <DataTableColumnHeader
         column={column}
         title="설정"
-        className="ml-[2px] justify-center"
+        className="justify-center"
       />
     ),
 
     cell: ({ row }) => (
-      <DataTableRowActions row={row} Schema={VdImagesSchema} />
+      <div className="flex justify-center">
+        <DataTableRowActions row={row} Schema={VdImagesSchema} />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
