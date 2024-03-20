@@ -1,6 +1,8 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -24,13 +26,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Dialog } from '@/components/ui/dialog';
+import { Sheet } from '@/components/ui/sheet';
 
 import { DataTablePagination } from '@/components/table/data-table-pagination';
 import { DataTableToolbar } from '@/components/table/data-table-toolbar';
-import { usePathname, useRouter } from 'next/navigation';
-import Link from 'next/link';
-
-import { Dialog } from '@/components/ui/dialog';
 
 interface UrlParam {
   url_id: string;
@@ -50,13 +50,10 @@ export function DataTable<TData, TValue>({
   data,
   url,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data,

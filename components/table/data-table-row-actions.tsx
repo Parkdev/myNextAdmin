@@ -44,7 +44,11 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>수정</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Button size="sm" variant="ghost" className="h-auto p-0">
+            수정
+          </Button>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <DialogTrigger asChild>
