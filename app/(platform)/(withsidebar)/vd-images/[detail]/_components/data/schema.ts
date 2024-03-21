@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const imgDetailSchema = z.object({
   id: z.string(),
   version: z.string(),
-  description: z.string(),
+  title: z.string(),
   status: z.number(),
   defaultImg: z.string(),
   isModifiedImg: z.boolean(),

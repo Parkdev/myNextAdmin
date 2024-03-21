@@ -32,8 +32,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
+import { useImageStore } from '@/store/table-popup-store';
 
 const subscribeFormSchema = z.object({
   imageName: z
@@ -51,26 +52,34 @@ const subscribeFormSchema = z.object({
   }),
 });
 
+export type subscribeForm = z.infer<typeof subscribeFormSchema>;
+
 interface CreateImageProps {
   btnText: string;
-  isMod: boolean;
 }
 
 // const wait = () => new Promise(resolve => setTimeout(resolve, 1000));
 
-export function CreateImage({ btnText, isMod }: CreateImageProps) {
-  const [open, setOpen] = useState(false);
-  const [subscribeList] = useState(['구독1', '구독2', '구독3']);
-  const Modifier = isMod ? ' 수정' : ' 생성';
+export function CreateImage({ btnText }: CreateImageProps) {
+  //상태관리
+  const isOpen = useImageStore(state => state.open);
+  const isMod = useImageStore(state => state.isMod) ? ' 수정' : ' 생성';
+  const rowData = useImageStore(state => state.row);
+  const changePopStatus = useImageStore(state => state.switch);
 
-  const form = useForm<z.infer<typeof subscribeFormSchema>>({
+  // const isMod = isMod ? ' 수정' : ' 생성';
+
+  //임시 데이터
+  const [subscribeList] = useState(['구독1', '구독2', '구독3']);
+
+  const form = useForm<subscribeForm>({
     resolver: zodResolver(subscribeFormSchema),
-    defaultValues: {
-      imageName: '',
-    },
+    // defaultValues: {
+    //   imageName: '초기값',
+    // },
   });
 
-  function onSubmit(values: z.infer<typeof subscribeFormSchema>) {
+  function onSubmit(values: subscribeForm) {
     toast({
       title: 'You submitted the following values:',
       description: (
@@ -79,22 +88,26 @@ export function CreateImage({ btnText, isMod }: CreateImageProps) {
         </pre>
       ),
     });
-    setOpen(false);
+    changePopStatus();
   }
+
+  useEffect(() => {
+    form.reset();
+    form.setValue('imageName', rowData.id);
+    form.setValue('description', rowData.title);
+    form.setValue('subscribe', '구독1');
+  }, [isOpen]);
 
   return (
     <>
-      <Sheet open={open} onOpenChange={setOpen}>
-        <Button size="sm" onClick={() => setOpen(true)}>
-          + 새 {btnText} {Modifier}
-        </Button>
+      <Sheet open={isOpen} onOpenChange={changePopStatus}>
         <SheetContent className="w-full sm:w-[540px]">
           <SheetHeader className="mb-4">
             <SheetTitle>
-              {btnText} {Modifier}
+              {btnText} {isMod}
             </SheetTitle>
             <SheetDescription>
-              {Modifier}할 {btnText}의 정보를 입력해주세요
+              {isMod}할 {btnText}의 정보를 입력해주세요
             </SheetDescription>
           </SheetHeader>
           <Form {...form}>
@@ -159,9 +172,8 @@ export function CreateImage({ btnText, isMod }: CreateImageProps) {
                   </FormItem>
                 )}
               />
-
               <SheetFooter>
-                <Button type="submit">생성</Button>
+                <Button type="submit">{isMod}</Button>
               </SheetFooter>
             </form>
           </Form>

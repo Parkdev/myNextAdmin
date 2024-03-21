@@ -20,13 +20,13 @@
 
 html {
   font-family: 'GmarketSans', sans-serif;
-  /* -ms-overflow-style: none; 
-  scrollbar-width: none;  */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-/* 
+
 ::-webkit-scrollbar {
   display: none;
-} */
+}
 
 .biggerArea::after {
   content: '';

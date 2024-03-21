@@ -10,6 +10,8 @@ import { DataTableRowActions } from '@/components/table/data-table-row-actions';
 import { useRouter, usePathname } from 'next/navigation';
 import { VdImagesSchema } from './data/schema';
 
+const title = '이미지';
+
 export const columns: ColumnDef<VdImages>[] = [
   {
     id: 'select',
@@ -106,7 +108,7 @@ export const columns: ColumnDef<VdImages>[] = [
 
     cell: ({ row }) => (
       <div className="flex justify-center">
-        <DataTableRowActions row={row} Schema={VdImagesSchema} />
+        <DataTableRowActions row={row} Schema={VdImagesSchema} title={title} />
       </div>
     ),
     enableSorting: false,

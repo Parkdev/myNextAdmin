@@ -31,6 +31,8 @@ import { Sheet } from '@/components/ui/sheet';
 
 import { DataTablePagination } from '@/components/table/data-table-pagination';
 import { DataTableToolbar } from '@/components/table/data-table-toolbar';
+import { CreateImage } from './data-table-create-image';
+import { CreateVersion } from './data-table-create-version';
 
 interface UrlParam {
   url_id: string;
@@ -54,6 +56,13 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  //팝업 관리
+  const [popParam, setPopParam] = useState<string | null>(null);
+
+  const handleClick = (newParam: string | null) => {
+    setPopParam(newParam);
+  };
 
   const table = useReactTable({
     data,
@@ -154,6 +163,12 @@ export function DataTable<TData, TValue>({
           </Table>
         </div>
       </Dialog>
+      {
+        {
+          이미지: <CreateImage btnText={title} isMod={false} />,
+          버전: <CreateVersion btnText={title} isMod={false} />,
+        }[title]
+      }
       <DataTablePagination table={table} />
     </div>
   );

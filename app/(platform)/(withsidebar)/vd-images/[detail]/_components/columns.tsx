@@ -8,6 +8,8 @@ import { ImgDetail, imgDetailSchema } from './data/schema';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
 import { DataTableRowActions } from '@/components/table/data-table-row-actions';
 
+const title = '버전';
+
 function MatchStatus(status: number) {
   switch (status) {
     case 1:
@@ -62,11 +64,11 @@ export const columns: ColumnDef<ImgDetail>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'description',
+    accessorKey: 'title',
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="설명"
+        title="이미지 명"
         className="justify-center"
       />
     ),
@@ -74,7 +76,7 @@ export const columns: ColumnDef<ImgDetail>[] = [
       return (
         <div className="relative flex space-x-2">
           <span className="max-w-[300px] truncate font-medium">
-            {row.getValue('description')}
+            {row.getValue('title')}
           </span>
         </div>
       );
@@ -170,7 +172,7 @@ export const columns: ColumnDef<ImgDetail>[] = [
 
     cell: ({ row }) => (
       <div className="flex justify-center">
-        <DataTableRowActions row={row} Schema={imgDetailSchema} />
+        <DataTableRowActions row={row} Schema={imgDetailSchema} title={title} />
       </div>
     ),
     enableSorting: false,
