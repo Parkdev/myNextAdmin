@@ -56,16 +56,18 @@ const versionFormSchema = z.object({
 
 interface CreateVersionProps {
   btnText: string;
+  isMod: boolean;
 }
 
 // const wait = () => new Promise(resolve => setTimeout(resolve, 1000));
 
-export function CreateVersion({ btnText }: CreateVersionProps) {
+export function CreateVersion({ btnText, isMod }: CreateVersionProps) {
   const [open, setOpen] = useState(false);
   const [typeList] = useState(['구독1', '구독2', '구독3']);
   const [imageList] = useState(['이미지1', '이미지2', '이미지3']);
   const [versionList] = useState(['버전1', '버전2', '버전3']);
   const [ruleList] = useState(['규칙1', '규칙2', '규칙3']);
+  const Modifier = isMod ? ' 수정' : ' 생성';
 
   const form = useForm<z.infer<typeof versionFormSchema>>({
     resolver: zodResolver(versionFormSchema),

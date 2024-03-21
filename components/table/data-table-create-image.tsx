@@ -53,13 +53,15 @@ const subscribeFormSchema = z.object({
 
 interface CreateImageProps {
   btnText: string;
+  isMod: boolean;
 }
 
 // const wait = () => new Promise(resolve => setTimeout(resolve, 1000));
 
-export function CreateImage({ btnText }: CreateImageProps) {
+export function CreateImage({ btnText, isMod }: CreateImageProps) {
   const [open, setOpen] = useState(false);
   const [subscribeList] = useState(['구독1', '구독2', '구독3']);
+  const Modifier = isMod ? ' 수정' : ' 생성';
 
   const form = useForm<z.infer<typeof subscribeFormSchema>>({
     resolver: zodResolver(subscribeFormSchema),
@@ -84,13 +86,15 @@ export function CreateImage({ btnText }: CreateImageProps) {
     <>
       <Sheet open={open} onOpenChange={setOpen}>
         <Button size="sm" onClick={() => setOpen(true)}>
-          + 새 {btnText} 생성
+          + 새 {btnText} {Modifier}
         </Button>
         <SheetContent className="w-full sm:w-[540px]">
           <SheetHeader className="mb-4">
-            <SheetTitle>{btnText} 생성</SheetTitle>
+            <SheetTitle>
+              {btnText} {Modifier}
+            </SheetTitle>
             <SheetDescription>
-              생성할 {btnText}의 상세 정보를 입력하세요.
+              {Modifier}할 {btnText}의 정보를 입력해주세요
             </SheetDescription>
           </SheetHeader>
           <Form {...form}>
