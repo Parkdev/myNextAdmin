@@ -43,7 +43,7 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
     {
       id: '2',
       name: 'VDI Workspace',
-      url: '/VDI',
+      url: '/vdi-workspace',
       current: false,
       icon: null,
     },

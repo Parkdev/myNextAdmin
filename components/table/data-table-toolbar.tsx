@@ -28,7 +28,7 @@ export function DataTableToolbar<TData>({
 
   function CreateClickEvent() {
     setMod(false);
-    update({});
+    update();
   }
 
   return (

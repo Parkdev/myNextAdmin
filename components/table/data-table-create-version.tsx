@@ -82,6 +82,15 @@ export function CreateVersion({ btnText }: CreateVersionProps) {
     // },
   });
 
+  useEffect(() => {
+    form.reset();
+    form.setValue('title', rowData.title);
+    form.setValue('type', '구독1');
+    form.setValue('image', '이미지1');
+    form.setValue('version', '버전1');
+    form.setValue('rule', '규칙1');
+  }, [isOpen]);
+
   function onSubmit(values: versionForm) {
     toast({
       title: 'You submitted the following values:',
@@ -93,15 +102,6 @@ export function CreateVersion({ btnText }: CreateVersionProps) {
     });
     changePopStatus();
   }
-
-  useEffect(() => {
-    form.reset();
-    form.setValue('title', rowData.title);
-    form.setValue('type', '구독1');
-    form.setValue('image', '이미지1');
-    form.setValue('version', '버전1');
-    form.setValue('rule', '규칙1');
-  }, [isOpen]);
 
   return (
     <Sheet open={isOpen} onOpenChange={changePopStatus}>

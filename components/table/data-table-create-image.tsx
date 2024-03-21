@@ -79,6 +79,13 @@ export function CreateImage({ btnText }: CreateImageProps) {
     // },
   });
 
+  useEffect(() => {
+    form.reset();
+    form.setValue('imageName', rowData.id);
+    form.setValue('description', rowData.title);
+    form.setValue('subscribe', '구독1');
+  }, [isOpen]);
+
   function onSubmit(values: subscribeForm) {
     toast({
       title: 'You submitted the following values:',
@@ -90,13 +97,6 @@ export function CreateImage({ btnText }: CreateImageProps) {
     });
     changePopStatus();
   }
-
-  useEffect(() => {
-    form.reset();
-    form.setValue('imageName', rowData.id);
-    form.setValue('description', rowData.title);
-    form.setValue('subscribe', '구독1');
-  }, [isOpen]);
 
   return (
     <>
