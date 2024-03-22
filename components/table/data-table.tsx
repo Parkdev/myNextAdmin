@@ -165,8 +165,8 @@ export function DataTable<TData, TValue>({
       </Dialog>
       {
         {
-          이미지: <CreateImage btnText={title} isMod={false} />,
-          버전: <CreateVersion btnText={title} isMod={false} />,
+          이미지: <CreateImage btnText={title} />,
+          버전: <CreateVersion btnText={title} />,
         }[title]
       }
       <DataTablePagination table={table} />

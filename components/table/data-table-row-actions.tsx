@@ -19,26 +19,31 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { DialogTrigger } from '@/components/ui/dialog';
-import { useImageStore, useVersionStore } from '@/store/table-popup-store';
-// import { Row  } from 'react-day-picker';
-// import { Task } from '@/app/(platform)/vd-images/_components/data/schema';
+import {
+  useImageStore,
+  useVDIStore,
+  useVersionStore,
+} from '@/store/table-popup-store';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
-  Schema: any;
   title: string;
 }
 
 export function DataTableRowActions<TData>({
   row,
-  Schema,
   title,
 }: DataTableRowActionsProps<TData>) {
-  const task = Schema.parse(row.original);
-  const { setMod, update } =
-    title === '이미지'
-      ? useImageStore(state => state)
-      : useVersionStore(state => state);
+  let setMod: any, update: any;
+  if (title === '이미지') {
+    ({ setMod, update } = useImageStore(state => state));
+  }
+  if (title === '버전') {
+    ({ setMod, update } = useVersionStore(state => state));
+  }
+  if (title === 'VDI Workspace') {
+    ({ setMod, update } = useVDIStore(state => state));
+  }
 
   function ModClickEvent() {
     console.log(row.original);
@@ -46,7 +51,6 @@ export function DataTableRowActions<TData>({
     update(row.original);
   }
 
-  // title === '이미지' ? useImageStore(state => state.update) : null;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

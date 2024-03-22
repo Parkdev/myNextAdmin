@@ -8,9 +8,7 @@ import { VdImages } from './data/schema';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
 import { DataTableRowActions } from '@/components/table/data-table-row-actions';
 import { useRouter, usePathname } from 'next/navigation';
-import { VdImagesSchema } from './data/schema';
-
-const title = '이미지';
+import { title, VdImagesSchema } from './data/schema';
 
 export const columns: ColumnDef<VdImages>[] = [
   {
@@ -108,7 +106,7 @@ export const columns: ColumnDef<VdImages>[] = [
 
     cell: ({ row }) => (
       <div className="flex justify-center">
-        <DataTableRowActions row={row} Schema={VdImagesSchema} title={title} />
+        <DataTableRowActions row={row} title={title} />
       </div>
     ),
     enableSorting: false,

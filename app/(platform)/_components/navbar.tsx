@@ -10,10 +10,10 @@ export const Navbar = async () => {
   const session = await getServerSession(nextAuthOptions);
 
   return (
-    <div className="sticky z-50 top-0 h-14 border-b w-full bg-white flex items-center">
+    <div className="sticky z-50 top-0 h-14 px-8 border-b w-full bg-white flex items-center">
       <div className="max-w-screen-2xl mx-auto flex items-center w-full justify-between">
         <Logo />
-        <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
+        <div className="flex items-center">
           {session ? (
             <NavProfile />
           ) : (

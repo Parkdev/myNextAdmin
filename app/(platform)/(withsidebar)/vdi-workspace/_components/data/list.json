@@ -1,0 +1,38 @@
+[
+  {
+    "id": "VDI-8782",
+    "name": "IT 보안팀",
+    "category": "개인",
+    "sessionCount": 100,
+    "loadBalance": "영구적",
+    "modified": "2024-03-12",
+    "created": "2024-03-11"
+  },
+  {
+    "id": "VDI-7878",
+    "name": "개발팀",
+    "category": "개인",
+    "sessionCount": 100,
+    "loadBalance": "영구적",
+    "modified": "2024-03-12",
+    "created": "2024-03-11"
+  },
+  {
+    "id": "VDI-7839",
+    "name": "일반 사무직",
+    "category": "개인",
+    "sessionCount": 100,
+    "loadBalance": "영구적",
+    "modified": "2024-03-12",
+    "created": "2024-03-11"
+  },
+  {
+    "id": "VDI-5562",
+    "name": "인사팀",
+    "category": "개인",
+    "sessionCount": 100,
+    "loadBalance": "영구적",
+    "modified": "2024-03-12",
+    "created": "2024-03-11"
+  }
+]

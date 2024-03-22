@@ -4,11 +4,10 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { ImgDetail, imgDetailSchema } from './data/schema';
+import { title, ImgDetail, imgDetailSchema } from './data/schema';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
 import { DataTableRowActions } from '@/components/table/data-table-row-actions';
 
-const title = '버전';
 
 function MatchStatus(status: number) {
   switch (status) {

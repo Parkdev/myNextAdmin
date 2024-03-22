@@ -20,13 +20,13 @@ interface DataTableViewOptionsProps<TData> {
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
-  if (
-    table
-      .getAllColumns()
-      .filter(column => typeof column.accessorFn === 'undefined').length === 1
-  ) {
-    return null;
-  }
+  // if (
+  //   table
+  //     .getAllColumns()
+  //     .filter(column => typeof column.accessorFn === 'undefined').length === 1
+  // ) {
+  //   return null;
+  // }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

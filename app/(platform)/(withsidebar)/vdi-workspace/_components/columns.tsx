@@ -4,15 +4,12 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { VdImages } from './data/schema';
+import { title, VdiList } from './data/schema';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
 import { DataTableRowActions } from '@/components/table/data-table-row-actions';
 import { useRouter, usePathname } from 'next/navigation';
-import { VdImagesSchema } from './data/schema';
 
-const title = '이미지';
-
-export const columns: ColumnDef<VdImages>[] = [
+export const columns: ColumnDef<VdiList>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -38,61 +35,61 @@ export const columns: ColumnDef<VdImages>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'title',
+    accessorKey: 'name',
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="이미지 명"
+        title="워크스페이스"
         className="justify-center"
       />
     ),
     cell: ({ row }) => {
       return (
-        <div className="relative flex space-x-2">
+        <div className="relative flex space-x-2 justify-center">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('title')}
+            {row.getValue('name')}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: 'version',
+    accessorKey: 'category',
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="마지막 버전"
+        title="유형"
         className="justify-center"
       />
     ),
     cell: ({ row }) => (
-      <div className="text-center">{`v. ${row.getValue('version')}`}</div>
+      <div className="text-center">{`${row.getValue('category')}`}</div>
     ),
   },
   {
-    accessorKey: 'modified',
+    accessorKey: 'sessionCount',
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="마지막 수정 일자"
+        title="전체 세션 수"
         className="justify-center"
       />
     ),
     cell: ({ row }) => (
-      <div className="text-center">{`${row.getValue('modified')}`}</div>
+      <div className="text-center">{`${row.getValue('sessionCount')}`}</div>
     ),
   },
   {
-    accessorKey: 'created',
+    accessorKey: 'loadBalance',
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="생성 일자"
+        title="부하 분산 유형"
         className="justify-center"
       />
     ),
     cell: ({ row }) => (
-      <div className="text-center">{`${row.getValue('created')}`}</div>
+      <div className="text-center">{`${row.getValue('loadBalance')}`}</div>
     ),
   },
   {
@@ -108,7 +105,7 @@ export const columns: ColumnDef<VdImages>[] = [
 
     cell: ({ row }) => (
       <div className="flex justify-center">
-        <DataTableRowActions row={row} Schema={VdImagesSchema} title={title} />
+        <DataTableRowActions row={row} title={title} />
       </div>
     ),
     enableSorting: false,

@@ -7,7 +7,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { columns } from './_components/columns';
 import { DataTable } from '@/components/table/data-table';
-import { VdImagesSchema } from './_components/data/schema';
+import { title, VdImagesSchema } from './_components/data/schema';
 
 async function getData() {
   const data = await fs.readFile(
@@ -25,7 +25,6 @@ async function getData() {
 const VdImagesPage = async () => {
   const imgData = await getData();
   const session = await getServerSession(nextAuthOptions);
-  const title = '이미지';
   return (
     <>
       {session ? (

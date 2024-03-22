@@ -7,25 +7,25 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { columns } from './_components/columns';
 import { DataTable } from '@/components/table/data-table';
-import { VdImagesSchema } from './_components/data/schema';
+import { title, VdiListSchema } from './_components/data/schema';
 
 async function getData() {
   const data = await fs.readFile(
     path.join(
       process.cwd(),
-      'app/(platform)/(withsidebar)/vd-images/_components/data/imgList.json',
+      'app/(platform)/(withsidebar)/vdi-workspace/_components/data/list.json',
     ),
   );
 
-  const imgData = JSON.parse(data.toString());
+  const listData = JSON.parse(data.toString());
 
-  return z.array(VdImagesSchema).parse(imgData);
+  return z.array(VdiListSchema).parse(listData);
 }
 
-const VdImagesPage = async () => {
-  const imgData = await getData();
+const VdiListPage = async () => {
+  const listData = await getData();
   const session = await getServerSession(nextAuthOptions);
-  const title = '이미지';
+
   return (
     <>
       {session ? (
@@ -33,9 +33,9 @@ const VdImagesPage = async () => {
           <h1 className="text-2xl font-bold">모든 {title}</h1>
           <DataTable
             title={title}
-            data={imgData}
+            data={listData}
             columns={columns}
-            url={{ url_id: 'title', url: '' }}
+            url={{ url_id: '', url: '' }}
           />
         </>
       ) : (
@@ -45,4 +45,4 @@ const VdImagesPage = async () => {
   );
 };
 
-export default VdImagesPage;
+export default VdiListPage;

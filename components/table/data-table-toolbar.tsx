@@ -9,7 +9,12 @@ import { CreateImage } from './data-table-create-image';
 import { DeleteImage } from './data-table-delete-Image';
 import { CreateVersion } from './data-table-create-version';
 import { Button } from '@/components/ui/button';
-import { useImageStore, useVersionStore } from '@/store/table-popup-store';
+import {
+  useImageStore,
+  useVDIStore,
+  useVersionStore,
+} from '@/store/table-popup-store';
+import { useEffect } from 'react';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -20,11 +25,24 @@ export function DataTableToolbar<TData>({
   table,
   btnText,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0;
-  const { setMod, update } =
-    btnText === '이미지'
-      ? useImageStore(state => state)
-      : useVersionStore(state => state);
+  // const isFiltered = table.getState().columnFilters.length > 0;
+
+  // 조건부 변수 설정
+  useEffect(() => {
+    let setMod: any, update: any;
+    let searchOption = 'title';
+
+    if (btnText === '이미지') {
+      ({ setMod, update } = useImageStore(state => state));
+    }
+    if (btnText === '버전') {
+      ({ setMod, update } = useVersionStore(state => state));
+    }
+    if (btnText === 'VDI Workspace') {
+      ({ setMod, update } = useVDIStore(state => state));
+      searchOption = 'name';
+    }
+  }, []);
 
   function CreateClickEvent() {
     setMod(false);
@@ -42,10 +60,10 @@ export function DataTableToolbar<TData>({
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Input
-            placeholder="이름 검색"
-            value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
+            placeholder="검색"
+            value={table.getColumn(searchOption)?.getFilterValue() as string}
             onChange={event =>
-              table.getColumn('title')?.setFilterValue(event.target.value)
+              table.getColumn(searchOption)?.setFilterValue(event.target.value)
             }
             className="h-9 w-[300px] lg:w-[500px]"
           />

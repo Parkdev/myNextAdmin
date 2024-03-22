@@ -56,7 +56,7 @@ export const NavItem = ({
         {
           id: '1',
           name: '모든 워크스페이스',
-          url: '/workSpaces',
+          url: '/vdi-workspace',
           current: false,
         },
         {
@@ -92,7 +92,7 @@ export const NavItem = ({
       <AccordionItem value={mainId} className="border-none">
         <AccordionTrigger
           onClick={() => onExpand(mainId)}
-          className={`${subCate[idx].menus.some(itm => itm.url === pathname) && !isExpanded && 'bg-sky-500/10 text-sky-700'} flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline `}
+          className={`${subCate[idx].menus.some(itm => itm.url === pathname) && !isExpanded && 'bg-sky-200 text-sky-700'} flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline `}
         >
           <div className="flex items-center gap-x-3">
             <div className="bg-gray-500 rounded-lg p-2 relative">
@@ -107,7 +107,7 @@ export const NavItem = ({
               key={idx}
               size="sm"
               onClick={() => onClick(sub.url)}
-              className={`w-full font-normal justify-start pl-10 mb-1 " ${pathname === sub.url && 'bg-sky-500/10 text-sky-700'}`}
+              className={`w-full font-normal justify-start pl-10 mb-1 " ${pathname === sub.url && 'bg-sky-200 text-sky-700'}`}
               variant="ghost"
             >
               {sub.name}
