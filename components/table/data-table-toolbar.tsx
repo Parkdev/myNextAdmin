@@ -14,7 +14,6 @@ import {
   useVDIStore,
   useVersionStore,
 } from '@/store/table-popup-store';
-import { useEffect } from 'react';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -25,24 +24,22 @@ export function DataTableToolbar<TData>({
   table,
   btnText,
 }: DataTableToolbarProps<TData>) {
-  // const isFiltered = table.getState().columnFilters.length > 0;
+  const isFiltered = table.getState().columnFilters.length > 0;
 
   // 조건부 변수 설정
-  useEffect(() => {
-    let setMod: any, update: any;
-    let searchOption = 'title';
+  let setMod: any, update: any;
+  let searchOption = 'title';
 
-    if (btnText === '이미지') {
-      ({ setMod, update } = useImageStore(state => state));
-    }
-    if (btnText === '버전') {
-      ({ setMod, update } = useVersionStore(state => state));
-    }
-    if (btnText === 'VDI Workspace') {
-      ({ setMod, update } = useVDIStore(state => state));
-      searchOption = 'name';
-    }
-  }, []);
+  if (btnText === '이미지') {
+    ({ setMod, update } = useImageStore(state => state));
+  }
+  if (btnText === '버전') {
+    ({ setMod, update } = useVersionStore(state => state));
+  }
+  if (btnText === 'VDI Workspace') {
+    ({ setMod, update } = useVDIStore(state => state));
+    searchOption = 'name';
+  }
 
   function CreateClickEvent() {
     setMod(false);
