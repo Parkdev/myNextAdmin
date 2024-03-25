@@ -10,39 +10,13 @@ export type PopupStore<TData> = {
   row?: TData;
   switch: () => void;
   setMod: (pp: boolean) => void;
-  update: (newRow?: TData) => void;
+  update: (newRow?: any) => void;
 };
 
 export type SetMod = (pp: boolean) => void;
-export type Update = (newRow?: VdImages | ImgDetail | VdiList) => void;
+export type Update = (newRow?: any) => void;
 
-export const useImageStore = create<PopupStore<VdImages>>(set => ({
-  open: false,
-  isMod: false,
-  row: undefined,
-  switch: () => set(state => ({ open: !state.open })),
-  setMod: pp => set(state => ({ isMod: pp })),
-  update: newRow =>
-    set(state => ({
-      open: !state.open,
-      row: newRow ? { ...newRow } : undefined,
-    })),
-}));
-
-export const useVersionStore = create<PopupStore<ImgDetail>>(set => ({
-  open: false,
-  isMod: false,
-  row: undefined,
-  switch: () => set(state => ({ open: !state.open })),
-  setMod: pp => set(state => ({ isMod: pp })),
-  update: newRow =>
-    set(state => ({
-      open: !state.open,
-      row: newRow ? { ...newRow } : undefined,
-    })),
-}));
-
-export const useVDIStore = create<PopupStore<VdiList>>(set => ({
+export const useSidePopStore = create<PopupStore<any>>(set => ({
   open: false,
   isMod: false,
   row: undefined,

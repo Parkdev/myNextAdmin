@@ -9,11 +9,7 @@ import { CreateImage } from './data-table-create-image';
 import { DeleteImage } from './data-table-delete-Image';
 import { CreateVersion } from './data-table-create-version';
 import { Button } from '@/components/ui/button';
-import {
-  useImageStore,
-  useVDIStore,
-  useVersionStore,
-} from '@/store/table-popup-store';
+import { SetMod, Update, useSidePopStore } from '@/store/table-popup-store';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -27,19 +23,8 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0;
 
   // 조건부 변수 설정
-  let setMod: any, update: any;
+  const { setMod, update } = useSidePopStore(state => state);
   let searchOption = 'title';
-
-  if (subject === '이미지') {
-    ({ setMod, update } = useImageStore(state => state));
-  }
-  if (subject === '버전') {
-    ({ setMod, update } = useVersionStore(state => state));
-  }
-  if (subject === 'VDI Workspace') {
-    ({ setMod, update } = useVDIStore(state => state));
-    searchOption = 'name';
-  }
 
   function CreateClickEvent() {
     setMod(false);

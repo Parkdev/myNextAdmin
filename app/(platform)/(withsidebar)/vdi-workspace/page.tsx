@@ -8,6 +8,7 @@ import path from 'path';
 import { columns } from './_components/columns';
 import { DataTable } from '@/components/table/data-table';
 import { title, VdiListSchema } from './_components/data/schema';
+import { CreateVDI } from '@/components/table/data-table-create-VDI';
 
 async function getData() {
   const data = await fs.readFile(
@@ -37,6 +38,7 @@ const VdiListPage = async () => {
             columns={columns}
             url={{ url_id: '', url: '' }}
           />
+          <CreateVDI subject={title} />,
         </>
       ) : (
         <div>You are not logged in</div>

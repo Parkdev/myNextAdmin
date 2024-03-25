@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Form,
   FormControl,
@@ -35,7 +37,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
-import { useVersionStore } from '@/store/table-popup-store';
+import { useSidePopStore } from '@/store/table-popup-store';
 
 const VDIFormSchema = z.object({
   name: z
@@ -84,20 +86,20 @@ const VDIFormSchema = z.object({
 
 export type VDIForm = z.infer<typeof VDIFormSchema>;
 
-interface VDISettingProps {
+interface CreateVDIProps {
   subject: string;
 }
 
-export function VDISetting({ subject }: VDISettingProps) {
+export function CreateVDI({ subject }: CreateVDIProps) {
   //상태관리
-  const isOpen = useVersionStore(state => state.open);
-  const isMod = useVersionStore(state => state.isMod) ? '수정' : '생성';
-  const rowData = useVersionStore(state => state.row);
-  const changePopStatus = useVersionStore(state => state.switch);
+  const isOpen = useSidePopStore(state => state.open);
+  const isMod = useSidePopStore(state => state.isMod) ? '수정' : '생성';
+  const rowData = useSidePopStore(state => state.row);
+  const changePopStatus = useSidePopStore(state => state.switch);
   //임시 데이터
-  const [locationList] = useState(['위치1', '위치2', '위치3']);
-  const [categoryList] = useState(['이미지1', '이미지2', '이미지3']);
-  const [versionList] = useState(['버전1', '버전2', '버전3']);
+  const [locationList] = useState(['East US', '위치2', '위치3']);
+  const [categoryList] = useState(['공용', '유형2', '유형3']);
+  const [loadBalanceList] = useState(['폭 우선', '버전2', '버전3']);
   const [ruleList] = useState(['규칙1', '규칙2', '규칙3']);
 
   const form = useForm<VDIForm>({
@@ -141,16 +143,15 @@ export function VDISetting({ subject }: VDISettingProps) {
         </SheetHeader>
         {/* tabs */}
         <Tabs defaultValue="workspace" className="w-[400px]">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="flax w-full">
             <TabsTrigger value="workspace">Workspace</TabsTrigger>
             <TabsTrigger value="vm">Virtual Machine</TabsTrigger>
             <TabsTrigger value="policy">Policy</TabsTrigger>
           </TabsList>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/*  테스트 */}
               <TabsContent value="workspace">
-                {/*  테스트 */}
-
                 <FormField
                   control={form.control}
                   name="name"
@@ -201,14 +202,16 @@ export function VDISetting({ subject }: VDISettingProps) {
                   name="category"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold">이미지 선택</FormLabel>
+                      <FormLabel className="font-bold">
+                        Workspace 유형
+                      </FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="이미지를 선택해주세요" />
+                            <SelectValue placeholder="유형을 선택해주세요" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -241,7 +244,7 @@ export function VDISetting({ subject }: VDISettingProps) {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {LBtypeList.map((item, idx) => (
+                          {loadBalanceList.map((item, idx) => (
                             <SelectItem key={idx} value={item}>
                               {item}
                             </SelectItem>
@@ -252,188 +255,33 @@ export function VDISetting({ subject }: VDISettingProps) {
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
-                  name="sessionLimit"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold">이미지 유형</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="버전 규칙 선택" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {sessionLimitList.map((item, idx) => (
-                            <SelectItem key={idx} value={item}>
-                              {item}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormLabel className="font-bold">
+                        Workspace 이름 설정
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Workspace 이름을 입력해주세요"
+                          {...field}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button onClick={}>다음</Button>
+
+                <Button>다음</Button>
               </TabsContent>
               {/* VM탭 */}
-              <TabsContent value="vm">
-                <FormField
-                  control={form.control}
-                  name="image"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">
-                        가상머신 이미지
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="이미지 선택" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {imageList.map((item, idx) => (
-                            <SelectItem key={idx} value={item}>
-                              {item}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="sessionLimit"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">이미지 유형</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="버전 규칙 선택" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {sessionLimitList.map((item, idx) => (
-                            <SelectItem key={idx} value={item}>
-                              {item}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="sessionLimit"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">이미지 유형</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="버전 규칙 선택" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {sessionLimitList.map((item, idx) => (
-                            <SelectItem key={idx} value={item}>
-                              {item}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="sessionLimit"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">이미지 유형</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="버전 규칙 선택" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {sessionLimitList.map((item, idx) => (
-                            <SelectItem key={idx} value={item}>
-                              {item}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">
-                        Workspace 이름 설정
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Workspace 이름을 입력해주세요"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">
-                        Workspace 이름 설정
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Workspace 이름을 입력해주세요"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </TabsContent>
+              <TabsContent value="vm">VM탭</TabsContent>
               {/* 정책 탭 */}
               <TabsContent value="policy">
-                <TabsContent value="workspace">
-                  <FormField
+                {/* <FormField
                     control={form.control}
                     name="mobile"
                     render={({ field }) => (
@@ -456,32 +304,7 @@ export function VDISetting({ subject }: VDISettingProps) {
                         </div>
                       </FormItem>
                     )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="mobile"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel>
-                            Use different settings for my mobile devices
-                          </FormLabel>
-                          <FormDescription>
-                            You can manage your mobile notifications in the{' '}
-                            <Link href="/examples/forms">mobile settings</Link>{' '}
-                            page.
-                          </FormDescription>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                </TabsContent>
+                  /> */}
                 <SheetFooter>
                   <Button type="submit">{isMod}</Button>
                 </SheetFooter>

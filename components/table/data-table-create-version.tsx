@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Form,
   FormControl,
@@ -34,7 +36,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
-import { useVersionStore } from '@/store/table-popup-store';
+import { useSidePopStore } from '@/store/table-popup-store';
 
 const versionFormSchema = z.object({
   title: z
@@ -65,10 +67,10 @@ interface CreateVersionProps {
 
 export function CreateVersion({ subject }: CreateVersionProps) {
   //상태관리
-  const isOpen = useVersionStore(state => state.open);
-  const isMod = useVersionStore(state => state.isMod) ? '수정' : '생성';
-  const rowData = useVersionStore(state => state.row);
-  const changePopStatus = useVersionStore(state => state.switch);
+  const isOpen = useSidePopStore(state => state.open);
+  const isMod = useSidePopStore(state => state.isMod) ? '수정' : '생성';
+  const rowData = useSidePopStore(state => state.row);
+  const changePopStatus = useSidePopStore(state => state.switch);
   //임시 데이터
   const [typeList] = useState(['구독1', '구독2', '구독3']);
   const [imageList] = useState(['이미지1', '이미지2', '이미지3']);

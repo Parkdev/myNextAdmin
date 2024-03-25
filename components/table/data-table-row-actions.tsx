@@ -19,11 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { DialogTrigger } from '@/components/ui/dialog';
-import {
-  useImageStore,
-  useVDIStore,
-  useVersionStore,
-} from '@/store/table-popup-store';
+import { useSidePopStore } from '@/store/table-popup-store';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -34,16 +30,16 @@ export function DataTableRowActions<TData>({
   row,
   title,
 }: DataTableRowActionsProps<TData>) {
-  let setMod: any, update: any;
-  if (title === '이미지') {
-    ({ setMod, update } = useImageStore(state => state));
-  }
-  if (title === '버전') {
-    ({ setMod, update } = useVersionStore(state => state));
-  }
-  if (title === 'VDI Workspace') {
-    ({ setMod, update } = useVDIStore(state => state));
-  }
+  const { setMod, update } = useSidePopStore(state => state);
+  // if (title === '이미지') {
+  //   ({ setMod, update } = useSidePopStore(state => state));
+  // }
+  // if (title === '버전') {
+  //   ({ setMod, update } = useSidePopStore(state => state));
+  // }
+  // if (title === 'VDI Workspace') {
+  //   ({ setMod, update } = useVDIStore(state => state));
+  // }
 
   function ModClickEvent() {
     console.log(row.original);

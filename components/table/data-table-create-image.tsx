@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Form,
   FormControl,
@@ -34,7 +36,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
-import { useImageStore } from '@/store/table-popup-store';
+import { useSidePopStore } from '@/store/table-popup-store';
 
 const subscribeFormSchema = z.object({
   imageName: z
@@ -62,10 +64,10 @@ interface CreateImageProps {
 
 export function CreateImage({ subject }: CreateImageProps) {
   //상태관리
-  const isOpen = useImageStore(state => state.open);
-  const isMod = useImageStore(state => state.isMod) ? ' 수정' : ' 생성';
-  const rowData = useImageStore(state => state.row);
-  const changePopStatus = useImageStore(state => state.switch);
+  const isOpen = useSidePopStore(state => state.open);
+  const isMod = useSidePopStore(state => state.isMod) ? ' 수정' : ' 생성';
+  const rowData = useSidePopStore(state => state.row);
+  const changePopStatus = useSidePopStore(state => state.switch);
 
   // const isMod = isMod ? ' 수정' : ' 생성';
 
