@@ -31,15 +31,6 @@ export function DataTableRowActions<TData>({
   title,
 }: DataTableRowActionsProps<TData>) {
   const { setMod, update } = useSidePopStore(state => state);
-  // if (title === '이미지') {
-  //   ({ setMod, update } = useSidePopStore(state => state));
-  // }
-  // if (title === '버전') {
-  //   ({ setMod, update } = useSidePopStore(state => state));
-  // }
-  // if (title === 'VDI Workspace') {
-  //   ({ setMod, update } = useVDIStore(state => state));
-  // }
 
   function ModClickEvent() {
     console.log(row.original);

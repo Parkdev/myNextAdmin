@@ -163,13 +163,6 @@ export function DataTable<TData, TValue>({
           </Table>
         </div>
       </Dialog>
-      {/* {
-        {
-          이미지: <CreateImage subject={title} />,
-          버전: <CreateVersion subject={title} />,
-          V
-        }[title]
-      } */}
       <DataTablePagination table={table} />
     </div>
   );

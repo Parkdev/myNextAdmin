@@ -1,3 +1,5 @@
+'use client';
+
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   FormControl,
@@ -23,18 +25,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 export type InputItemProps = {
   inputType: string;
-  form: UseFormReturn<VDIForm | subscribeForm | ImgDetail>;
-  formName: keyof VDIForm | keyof subscribeForm | keyof ImgDetail;
+  form: UseFormReturn<any>;
+  name: keyof VDIForm | keyof subscribeForm | keyof ImgDetail;
   label: string;
   description?: string;
-  placeholder: string;
+  placeholder?: string;
   selectList?: string[];
 };
 
 export const InputItem: React.FC<InputItemProps> = ({
   inputType,
   form,
-  formName,
+  name,
   label,
   description,
   placeholder,
@@ -44,12 +46,16 @@ export const InputItem: React.FC<InputItemProps> = ({
     return (
       <FormField
         control={form.control}
-        name={formName}
+        name={name}
         render={({ field }) => (
           <FormItem>
             <FormLabel className="font-bold">{label}</FormLabel>
             <FormControl>
-              <Input placeholder={placeholder} {...field} value={field.value.toString()} />
+              <Input
+                placeholder={placeholder}
+                {...field}
+                value={field.value ? field.value.toString() : ''}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -57,19 +63,40 @@ export const InputItem: React.FC<InputItemProps> = ({
       />
     );
   }
-
+  if (inputType === 'number') {
+    return (
+      <FormField
+        control={form.control}
+        name={name}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="font-bold">{label}</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                placeholder={placeholder}
+                {...register({ name }, { required: true, maxLength: 30 })}
+                // {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  }
   if (inputType === 'select') {
     return (
       <FormField
         control={form.control}
-        name={formName}
+        name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="font-bold">위치</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+            <FormLabel className="font-bold">{label}</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue placeholder="위치를 선택해주세요" />
+                  <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
@@ -90,7 +117,7 @@ export const InputItem: React.FC<InputItemProps> = ({
     return (
       <FormField
         control={form.control}
-        name={formName}
+        name={name}
         render={({ field }) => (
           <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
             <FormControl>
@@ -100,9 +127,7 @@ export const InputItem: React.FC<InputItemProps> = ({
               />
             </FormControl>
             <div className="space-y-1 leading-none">
-              <FormLabel>
-                Use different settings for my mobile devices
-              </FormLabel>
+              <FormLabel>{label}</FormLabel>
             </div>
           </FormItem>
         )}

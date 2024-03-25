@@ -38,6 +38,7 @@ import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useSidePopStore } from '@/store/table-popup-store';
+import { InputItem } from './createVDI/input-component';
 
 const VDIFormSchema = z.object({
   name: z
@@ -50,11 +51,11 @@ const VDIFormSchema = z.object({
   category: z.string({
     required_error: '유형을 선택해주세요',
   }),
-  LBtype: z.string({
+  loadBalance: z.string({
     required_error: '로드밸런싱 유형을 선택해주세요',
   }),
-  sessionLimit: z.string({
-    required_error: '세션 제한을 입력해주세요',
+  sessionLimit: z.number({
+    required_error: '수치를 입력해주세요',
   }),
   image: z.string({
     required_error: '이미지를 선택해주세요',
@@ -74,8 +75,8 @@ const VDIFormSchema = z.object({
   VDMCount: z.number({
     required_error: '가상 머신 수를 입력해주세요 선택해주세요',
   }),
-  retention: z.boolean(),
-  bizHour: z.boolean(),
+  retentionPolicy: z.boolean(),
+  timeAllocate: z.boolean(),
   connector: z.string({
     required_error: '커넥터를 선택해주세요',
   }),
@@ -96,11 +97,13 @@ export function CreateVDI({ subject }: CreateVDIProps) {
   const isMod = useSidePopStore(state => state.isMod) ? '수정' : '생성';
   const rowData = useSidePopStore(state => state.row);
   const changePopStatus = useSidePopStore(state => state.switch);
+
   //임시 데이터
   const [locationList] = useState(['East US', '위치2', '위치3']);
   const [categoryList] = useState(['공용', '유형2', '유형3']);
   const [loadBalanceList] = useState(['폭 우선', '버전2', '버전3']);
   const [ruleList] = useState(['규칙1', '규칙2', '규칙3']);
+  const [tab, setTab] = useState('0');
 
   const form = useForm<VDIForm>({
     resolver: zodResolver(VDIFormSchema),
@@ -109,16 +112,16 @@ export function CreateVDI({ subject }: CreateVDIProps) {
     // },
   });
 
-  // useEffect(() => {
-  //   form.reset();
-  //   form.setValue('title', rowData.title);
-  //   form.setValue('type', '구독1');
-  //   form.setValue('category', '이미지1');
-  //   form.setValue('version', '버전1');
-  //   form.setValue('rule', '규칙1');
-  // }, [isOpen]);
+  useEffect(() => {
+    form.reset();
+    // form.setValue('title', rowData.title);
+    // form.setValue('type', '구독1');
+    // form.setValue('category', '이미지1');
+    // form.setValue('version', '버전1');
+    // form.setValue('rule', '규칙1');
+  }, [isOpen]);
 
-  function onSubmit(values: VDIForm) {
+  const onSubmit = (values: VDIForm) => {
     toast({
       title: 'You submitted the following values:',
       description: (
@@ -128,7 +131,11 @@ export function CreateVDI({ subject }: CreateVDIProps) {
       ),
     });
     changePopStatus();
-  }
+  };
+
+  const onTabChange = (value: string) => {
+    setTab(value);
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={changePopStatus}>
@@ -142,145 +149,79 @@ export function CreateVDI({ subject }: CreateVDIProps) {
           </SheetDescription>
         </SheetHeader>
         {/* tabs */}
-        <Tabs defaultValue="workspace" className="w-[400px]">
-          <TabsList className="flax w-full">
-            <TabsTrigger value="workspace">Workspace</TabsTrigger>
-            <TabsTrigger value="vm">Virtual Machine</TabsTrigger>
-            <TabsTrigger value="policy">Policy</TabsTrigger>
+        <Tabs value={tab} onValueChange={onTabChange} className="">
+          <TabsList className="flex w-full">
+            <TabsTrigger value="0">Workspace</TabsTrigger>
+            <TabsTrigger value="1">Virtual Machine</TabsTrigger>
+            <TabsTrigger value="2">Policy</TabsTrigger>
           </TabsList>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/*  테스트 */}
-              <TabsContent value="workspace">
-                <FormField
-                  control={form.control}
+              {/* Workspace 탭 */}
+              <TabsContent value="0" className="space-y-6">
+                <InputItem
+                  inputType="text"
+                  form={form}
                   name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">
-                        Workspace 이름 설정
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Workspace 이름을 입력해주세요"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Workspace 이름 설정"
+                  placeholder="이름을 입력해주세요"
                 />
-                <FormField
-                  control={form.control}
+                <InputItem
+                  inputType="select"
+                  form={form}
                   name="location"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">위치</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="위치를 선택해주세요" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {locationList.map((item, idx) => (
-                            <SelectItem key={idx} value={item}>
-                              {item}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="위치"
+                  placeholder="위치를 선택해주세요"
+                  selectList={locationList}
                 />
-                <FormField
-                  control={form.control}
+                <InputItem
+                  inputType="select"
+                  form={form}
                   name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">
-                        Workspace 유형
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="유형을 선택해주세요" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {categoryList.map((item, idx) => (
-                            <SelectItem key={idx} value={item}>
-                              {item}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Workspace 유형"
+                  placeholder="유형을 선택해주세요"
+                  selectList={categoryList}
                 />
-                <FormField
-                  control={form.control}
-                  name="LBtype"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">
-                        로드밸런스 선택
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="알고리즘을 선택해주세요" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {loadBalanceList.map((item, idx) => (
-                            <SelectItem key={idx} value={item}>
-                              {item}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                <InputItem
+                  inputType="select"
+                  form={form}
+                  name="loadBalance"
+                  label="부하 분산 알고리즘 선택"
+                  placeholder="알고리즘을 선택해주세요"
+                  selectList={locationList}
                 />
-
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">
-                        Workspace 이름 설정
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Workspace 이름을 입력해주세요"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                <InputItem
+                  inputType="number"
+                  form={form}
+                  name="sessionLimit"
+                  label="최대 세션 제한"
+                  placeholder="수치를 입력해주세요"
                 />
-
-                <Button>다음</Button>
+                <SheetFooter className="flex space-x-4">
+                  <Button variant="outline" onClick={() => onTabChange('1')}>
+                    다음
+                  </Button>
+                  <Button type="submit">{isMod}</Button>
+                </SheetFooter>
               </TabsContent>
               {/* VM탭 */}
-              <TabsContent value="vm">VM탭</TabsContent>
+              <TabsContent value="1">
+                <InputItem
+                  inputType="checkbox"
+                  form={form}
+                  name="retentionPolicy"
+                  label="데이터 보존 정책 할당"
+                />
+                <SheetFooter className="flex space-x-4">
+                <Button variant="outline" onClick={() => onTabChange('2')}>
+                    다음
+                  </Button>
+                  <Button type="submit">{isMod}</Button>
+                </SheetFooter>
+              </TabsContent>
+
               {/* 정책 탭 */}
-              <TabsContent value="policy">
+              <TabsContent value="2">
                 {/* <FormField
                     control={form.control}
                     name="mobile"
@@ -305,7 +246,10 @@ export function CreateVDI({ subject }: CreateVDIProps) {
                       </FormItem>
                     )}
                   /> */}
-                <SheetFooter>
+                {/* <SheetFooter>
+                  <Button type="submit">{isMod}</Button>
+                </SheetFooter> */}
+                <SheetFooter className="flex space-x-4">
                   <Button type="submit">{isMod}</Button>
                 </SheetFooter>
               </TabsContent>
