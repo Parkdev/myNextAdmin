@@ -58,12 +58,12 @@ const versionFormSchema = z.object({
 export type versionForm = z.infer<typeof versionFormSchema>;
 
 interface CreateVersionProps {
-  btnText: string;
+  subject: string;
 }
 
 // const wait = () => new Promise(resolve => setTimeout(resolve, 1000));
 
-export function CreateVersion({ btnText }: CreateVersionProps) {
+export function CreateVersion({ subject }: CreateVersionProps) {
   //상태관리
   const isOpen = useVersionStore(state => state.open);
   const isMod = useVersionStore(state => state.isMod) ? '수정' : '생성';
@@ -84,7 +84,7 @@ export function CreateVersion({ btnText }: CreateVersionProps) {
 
   useEffect(() => {
     form.reset();
-    form.setValue('title', rowData.title);
+    form.setValue('title', rowData?.title ?? '');
     form.setValue('type', '구독1');
     form.setValue('image', '이미지1');
     form.setValue('version', '버전1');
@@ -108,10 +108,10 @@ export function CreateVersion({ btnText }: CreateVersionProps) {
       <SheetContent className="w-full sm:w-[540px]">
         <SheetHeader className="mb-4">
           <SheetTitle>
-            {btnText} {isMod}
+            {subject} {isMod}
           </SheetTitle>
           <SheetDescription>
-            {isMod}할 {btnText}의 상세 정보를 입력하세요.
+            {isMod}할 {subject}의 상세 정보를 입력하세요.
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>

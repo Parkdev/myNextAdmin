@@ -17,12 +17,12 @@ import {
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
-  btnText: string;
+  subject: string;
 }
 
 export function DataTableToolbar<TData>({
   table,
-  btnText,
+  subject,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -30,13 +30,13 @@ export function DataTableToolbar<TData>({
   let setMod: any, update: any;
   let searchOption = 'title';
 
-  if (btnText === '이미지') {
+  if (subject === '이미지') {
     ({ setMod, update } = useImageStore(state => state));
   }
-  if (btnText === '버전') {
+  if (subject === '버전') {
     ({ setMod, update } = useVersionStore(state => state));
   }
-  if (btnText === 'VDI Workspace') {
+  if (subject === 'VDI Workspace') {
     ({ setMod, update } = useVDIStore(state => state));
     searchOption = 'name';
   }
@@ -50,9 +50,9 @@ export function DataTableToolbar<TData>({
     <div className="flex flex-col gap-y-3">
       <div className="flex items-center space-x-2">
         <Button size="sm" onClick={CreateClickEvent}>
-          + 새 {btnText} 생성
+          + 새 {subject} 생성
         </Button>
-        <DeleteImage btnText={btnText} table={table} />
+        <DeleteImage subject={subject} table={table} />
       </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">

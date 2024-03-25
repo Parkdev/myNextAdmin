@@ -19,62 +19,33 @@ export type Update = (newRow?: VdImages | ImgDetail | VdiList) => void;
 export const useImageStore = create<PopupStore<VdImages>>(set => ({
   open: false,
   isMod: false,
-  row: { id: '', title: '', version: '', modified: '', created: '', url: '' },
+  row: undefined,
   switch: () => set(state => ({ open: !state.open })),
   setMod: pp => set(state => ({ isMod: pp })),
   update: newRow =>
     set(state => ({
       open: !state.open,
-      row: newRow
-        ? { ...newRow }
-        : {
-            id: '',
-            title: '',
-            version: '',
-            modified: '',
-            created: '',
-            url: '',
-          },
+      row: newRow ? { ...newRow } : undefined,
     })),
 }));
 
 export const useVersionStore = create<PopupStore<ImgDetail>>(set => ({
   open: false,
   isMod: false,
-  row: {
-    id: '',
-    version: '',
-    title: '',
-    status: 0,
-    defaultImg: '',
-    isModifiedImg: false,
-    modified: '',
-    created: '',
-  },
+  row: undefined,
   switch: () => set(state => ({ open: !state.open })),
   setMod: pp => set(state => ({ isMod: pp })),
   update: newRow =>
     set(state => ({
       open: !state.open,
-      row: newRow
-        ? { ...newRow }
-        : {
-            id: '',
-            version: '',
-            title: '',
-            status: 0,
-            defaultImg: '',
-            isModifiedImg: false,
-            modified: '',
-            created: '',
-          },
+      row: newRow ? { ...newRow } : undefined,
     })),
 }));
 
 export const useVDIStore = create<PopupStore<VdiList>>(set => ({
   open: false,
   isMod: false,
-  row: {},
+  row: undefined,
   switch: () => set(state => ({ open: !state.open })),
   setMod: pp => set(state => ({ isMod: pp })),
   update: newRow =>

@@ -55,12 +55,12 @@ const subscribeFormSchema = z.object({
 export type subscribeForm = z.infer<typeof subscribeFormSchema>;
 
 interface CreateImageProps {
-  btnText: string;
+  subject: string;
 }
 
 // const wait = () => new Promise(resolve => setTimeout(resolve, 1000));
 
-export function CreateImage({ btnText }: CreateImageProps) {
+export function CreateImage({ subject }: CreateImageProps) {
   //상태관리
   const isOpen = useImageStore(state => state.open);
   const isMod = useImageStore(state => state.isMod) ? ' 수정' : ' 생성';
@@ -81,8 +81,8 @@ export function CreateImage({ btnText }: CreateImageProps) {
 
   useEffect(() => {
     form.reset();
-    form.setValue('imageName', rowData.id);
-    form.setValue('description', rowData.title);
+    form.setValue('imageName', rowData?.id ?? '');
+    form.setValue('description', rowData?.title ?? '');
     form.setValue('subscribe', '구독1');
   }, [isOpen]);
 
@@ -104,10 +104,10 @@ export function CreateImage({ btnText }: CreateImageProps) {
         <SheetContent className="w-full sm:w-[540px]">
           <SheetHeader className="mb-4">
             <SheetTitle>
-              {btnText} {isMod}
+              {subject} {isMod}
             </SheetTitle>
             <SheetDescription>
-              {isMod}할 {btnText}의 정보를 입력해주세요
+              {isMod}할 {subject}의 정보를 입력해주세요
             </SheetDescription>
           </SheetHeader>
           <Form {...form}>

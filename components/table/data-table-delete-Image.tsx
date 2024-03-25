@@ -18,12 +18,12 @@ import {
 } from '@/components/ui/dialog';
 
 interface DataTableToolbarProps<TData> {
-  btnText: string;
+  subject: string;
   table: Table<TData>;
 }
 
 export function DeleteImage<TData>({
-  btnText,
+  subject,
   table,
 }: DataTableToolbarProps<TData>) {
   const [isSelected, setIsSelected] = useState([]);
@@ -38,7 +38,7 @@ export function DeleteImage<TData>({
             variant="destructive"
             onClick={() => console.log(table.getSelectedRowModel())}
           >
-            - {btnText} 삭제
+            - {subject} 삭제
           </Button>
         </DialogTrigger>
       )}

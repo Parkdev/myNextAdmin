@@ -52,12 +52,12 @@ const subscribeFormSchema = z.object({
 });
 
 interface CreateImageProps {
-  btnText: string;
+  subject: string;
 }
 
 // const wait = () => new Promise(resolve => setTimeout(resolve, 1000));
 
-export function ImageSettingBody({ btnText }: CreateImageProps) {
+export function ImageSettingBody({ subject }: CreateImageProps) {
   const [open, setOpen] = useState(false);
   const [subscribeList] = useState(['구독1', '구독2', '구독3']);
 
@@ -84,13 +84,13 @@ export function ImageSettingBody({ btnText }: CreateImageProps) {
     <>
       {/* <Sheet open={open} onOpenChange={setOpen}>
         <Button size="sm" onClick={() => setOpen(true)}>
-          + 새 {btnText} 생성
+          + 새 {subject} 생성
         </Button> */}
       <SheetContent className="w-full sm:w-[540px]">
         <SheetHeader className="mb-4">
-          <SheetTitle>{btnText} 생성</SheetTitle>
+          <SheetTitle>{subject} 생성</SheetTitle>
           <SheetDescription>
-            생성할 {btnText}의 상세 정보를 입력하세요.
+            생성할 {subject}의 상세 정보를 입력하세요.
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>

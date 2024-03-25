@@ -96,7 +96,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="space-y-4 w-full">
       <Dialog>
-        <DataTableToolbar table={table} btnText={title} />
+        <DataTableToolbar table={table} subject={title} />
         <div className="rounded-md border">
           <Table>
             <TableHeader>
@@ -165,8 +165,8 @@ export function DataTable<TData, TValue>({
       </Dialog>
       {
         {
-          이미지: <CreateImage btnText={title} />,
-          버전: <CreateVersion btnText={title} />,
+          이미지: <CreateImage subject={title} />,
+          버전: <CreateVersion subject={title} />,
         }[title]
       }
       <DataTablePagination table={table} />

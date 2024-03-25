@@ -85,10 +85,10 @@ const VDIFormSchema = z.object({
 export type VDIForm = z.infer<typeof VDIFormSchema>;
 
 interface VDISettingProps {
-  btnText: string;
+  subject: string;
 }
 
-export function VDISetting({ btnText }: VDISettingProps) {
+export function VDISetting({ subject }: VDISettingProps) {
   //상태관리
   const isOpen = useVersionStore(state => state.open);
   const isMod = useVersionStore(state => state.isMod) ? '수정' : '생성';
@@ -133,10 +133,10 @@ export function VDISetting({ btnText }: VDISettingProps) {
       <SheetContent className="w-full sm:w-[540px]">
         <SheetHeader className="mb-4">
           <SheetTitle>
-            {btnText} {isMod}
+            {subject} {isMod}
           </SheetTitle>
           <SheetDescription>
-            {isMod}할 {btnText}의 상세 정보를 입력하세요.
+            {isMod}할 {subject}의 상세 정보를 입력하세요.
           </SheetDescription>
         </SheetHeader>
         {/* tabs */}
@@ -150,7 +150,7 @@ export function VDISetting({ btnText }: VDISettingProps) {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <TabsContent value="workspace">
                 {/*  테스트 */}
-                
+
                 <FormField
                   control={form.control}
                   name="name"
