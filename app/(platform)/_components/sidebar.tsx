@@ -109,6 +109,7 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
         <HomeIcon className="h-4 w-4" />
         <span className="">DashBoard</span>
       </Button>
+      <Separator className="my-1" />
       <Accordion
         type="multiple"
         defaultValue={defaultAccordionValue}
