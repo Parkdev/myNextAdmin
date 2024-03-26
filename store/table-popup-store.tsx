@@ -1,7 +1,3 @@
-import { ImgDetail } from '@/app/(platform)/(withsidebar)/vd-images/[detail]/_components/data/schema';
-import { VdImages } from '@/app/(platform)/(withsidebar)/vd-images/_components/data/schema';
-import { VdiList } from '@/app/(platform)/(withsidebar)/vdi-workspace/_components/data/schema';
-
 import { create } from 'zustand';
 
 export type PopupStore<TData> = {

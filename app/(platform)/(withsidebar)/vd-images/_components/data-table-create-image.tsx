@@ -30,31 +30,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useSidePopStore } from '@/store/table-popup-store';
-
-const subscribeFormSchema = z.object({
-  imageName: z
-    .string({ required_error: '이름을 입력해주세요' })
-    .min(2, { message: '2글자 이상 입력해주세요' })
-    .max(50),
-  description: z
-    .string({
-      required_error: '설명을 입력해주세요',
-    })
-    .min(2)
-    .max(100),
-  subscribe: z.string({
-    required_error: '구독을 선택해주세요',
-  }),
-});
-
-export type subscribeForm = z.infer<typeof subscribeFormSchema>;
+import { subscribeFormSchema, subscribeForm } from './data/form-schema';
 
 interface CreateImageProps {
   subject: string;
@@ -68,8 +49,6 @@ export function CreateImage({ subject }: CreateImageProps) {
   const isMod = useSidePopStore(state => state.isMod) ? ' 수정' : ' 생성';
   const rowData = useSidePopStore(state => state.row);
   const changePopStatus = useSidePopStore(state => state.switch);
-
-  // const isMod = isMod ? ' 수정' : ' 생성';
 
   //임시 데이터
   const [subscribeList] = useState(['구독1', '구독2', '구독3']);

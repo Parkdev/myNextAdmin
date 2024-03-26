@@ -9,83 +9,25 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from '@/components/ui/sheet';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useSidePopStore } from '@/store/table-popup-store';
-import { InputItem } from './createVDI/input-component';
-
-const VDIFormSchema = z.object({
-  name: z
-    .string({ required_error: '이름을 입력해주세요' })
-    .min(2, { message: '2글자 이상 입력해주세요' })
-    .max(50),
-  location: z.string({
-    required_error: '위치를 선택해주세요',
-  }),
-  category: z.string({
-    required_error: '유형을 선택해주세요',
-  }),
-  loadBalance: z.string({
-    required_error: '로드밸런싱 유형을 선택해주세요',
-  }),
-  sessionLimit: z.number({
-    required_error: '수치를 입력해주세요',
-  }),
-  image: z.string({
-    required_error: '이미지를 선택해주세요',
-  }),
-  spec: z.string({
-    required_error: '사양을 선택해주세요',
-  }),
-  diskSize: z.string({
-    required_error: '디스크 크기를 선택해주세요',
-  }),
-  VDnetwork: z.string({
-    required_error: '가상 네트워크를 선택해주세요',
-  }),
-  subnet: z.string({
-    required_error: '서브넷을 선택해주세요',
-  }),
-  VDMCount: z.number({
-    required_error: '가상 머신 수를 입력해주세요 선택해주세요',
-  }),
-  retentionPolicy: z.boolean(),
-  timeAllocate: z.boolean(),
-  connector: z.string({
-    required_error: '커넥터를 선택해주세요',
-  }),
-  accessGroup: z.string({
-    required_error: '그룹을 선택해주세요',
-  }),
-});
-
-export type VDIForm = z.infer<typeof VDIFormSchema>;
+import { InputItem } from '@/components/input/input-components';
+import { VDIFormSchema, VDIForm } from './data/form-schema';
 
 interface CreateVDIProps {
   subject: string;
@@ -213,7 +155,7 @@ export function CreateVDI({ subject }: CreateVDIProps) {
                   label="데이터 보존 정책 할당"
                 />
                 <SheetFooter className="flex space-x-4">
-                <Button variant="outline" onClick={() => onTabChange('2')}>
+                  <Button variant="outline" onClick={() => onTabChange('2')}>
                     다음
                   </Button>
                   <Button type="submit">{isMod}</Button>

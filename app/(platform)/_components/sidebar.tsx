@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Notebook, Plus } from 'lucide-react';
+import { HomeIcon, Notebook, Plus } from 'lucide-react';
 import { useLocalStorage } from 'usehooks-ts';
 
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/accordion';
 import { useEffect, useState } from 'react';
 import { NavItem } from './nav-item';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface SidebarProps {
   storageKey?: string;
@@ -61,6 +62,9 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
     storageKey,
     {},
   );
+  // 라우터
+  const router = useRouter();
+  const pathname = usePathname();
 
   // 디폴트 아코디언
   const [isClient, setIsClient] = useState(false);
@@ -97,6 +101,14 @@ export const Sidebar = ({ storageKey = 'd-sidebar-state' }: SidebarProps) => {
 
   return (
     <>
+      <Button
+        onClick={() => router.push('/dashboard')}
+        className={`w-full justify-start mb-1 text-normal space-x-6 p-3.5 text-neutral-700 " ${pathname === '/dashboard' && 'bg-sky-200 text-sky-700'}`}
+        variant="ghost"
+      >
+        <HomeIcon className="h-4 w-4" />
+        <span className="">DashBoard</span>
+      </Button>
       <Accordion
         type="multiple"
         defaultValue={defaultAccordionValue}

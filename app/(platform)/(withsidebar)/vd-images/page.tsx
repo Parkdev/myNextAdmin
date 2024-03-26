@@ -8,7 +8,7 @@ import path from 'path';
 import { columns } from './_components/columns';
 import { DataTable } from '@/components/table/data-table';
 import { title, VdImagesSchema } from './_components/data/schema';
-import { CreateImage } from '@/components/table/data-table-create-image';
+import { CreateImage } from './_components/data-table-create-image';
 
 async function getData() {
   const data = await fs.readFile(
@@ -37,7 +37,7 @@ const VdImagesPage = async () => {
             columns={columns}
             url={{ url_id: 'title', url: '' }}
           />
-          <CreateImage subject={title} />,
+          <CreateImage subject={title} />
         </>
       ) : (
         <div>You are not logged in</div>

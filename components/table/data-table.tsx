@@ -31,8 +31,8 @@ import { Sheet } from '@/components/ui/sheet';
 
 import { DataTablePagination } from '@/components/table/data-table-pagination';
 import { DataTableToolbar } from '@/components/table/data-table-toolbar';
-import { CreateImage } from './data-table-create-image';
-import { CreateVersion } from './data-table-create-version';
+import { CreateImage } from '../../app/(platform)/(withsidebar)/vd-images/_components/data-table-create-image';
+import { CreateVersion } from '../../app/(platform)/(withsidebar)/vd-images/[detail]/_components/data-table-create-version';
 
 interface UrlParam {
   url_id: string;

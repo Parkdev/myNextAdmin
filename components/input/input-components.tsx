@@ -18,8 +18,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { UseFormReturn } from 'react-hook-form';
-import { subscribeForm } from '../data-table-create-image';
-import { VDIForm } from '../data-table-create-VDI';
+import { subscribeForm } from '../../../app/(platform)/(withsidebar)/vd-images/_components/data-table-create-image';
+import { VDIForm } from '../../../app/(platform)/(withsidebar)/vdi-workspace/_components/data-table-create-VDI';
 import { ImgDetail } from '@/app/(platform)/(withsidebar)/vd-images/[detail]/_components/data/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -72,12 +72,7 @@ export const InputItem: React.FC<InputItemProps> = ({
           <FormItem>
             <FormLabel className="font-bold">{label}</FormLabel>
             <FormControl>
-              <Input
-                type="number"
-                placeholder={placeholder}
-                {...register({ name }, { required: true, maxLength: 30 })}
-                // {...field}
-              />
+              <Input type="number" placeholder={placeholder} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

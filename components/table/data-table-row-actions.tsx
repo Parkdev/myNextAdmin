@@ -33,7 +33,6 @@ export function DataTableRowActions<TData>({
   const { setMod, update } = useSidePopStore(state => state);
 
   function ModClickEvent() {
-    console.log(row.original);
     setMod(true);
     update(row.original);
   }

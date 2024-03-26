@@ -5,11 +5,9 @@ import { Table } from '@tanstack/react-table';
 import { Input } from '@/components/ui/input';
 import { DataTableViewOptions } from './data-table-view-options';
 
-import { CreateImage } from './data-table-create-image';
 import { DeleteImage } from './data-table-delete-Image';
-import { CreateVersion } from './data-table-create-version';
 import { Button } from '@/components/ui/button';
-import { SetMod, Update, useSidePopStore } from '@/store/table-popup-store';
+import { useSidePopStore } from '@/store/table-popup-store';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;

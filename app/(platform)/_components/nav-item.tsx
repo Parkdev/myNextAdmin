@@ -95,24 +95,26 @@ export const NavItem = ({
           className={`${subCate[idx].menus.some(itm => itm.url === pathname) && !isExpanded && 'bg-sky-200 text-sky-700'} flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline `}
         >
           <div className="flex items-center gap-x-3">
-            <div className="bg-gray-500 rounded-lg p-2 relative">
-              <Notebook className={`h-4 w-4 text-white`} />
+            <div className="p-2 relative">
+              <Notebook className={`h-4 w-4`} />
             </div>
             <span>{name}</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-1 text-neutral-700">
-          {subCate[idx].menus.map((sub, idx) => (
-            <Button
-              key={idx}
-              size="sm"
-              onClick={() => onClick(sub.url)}
-              className={`w-full font-normal justify-start pl-10 mb-1 " ${pathname === sub.url && 'bg-sky-200 text-sky-700'}`}
-              variant="ghost"
-            >
-              {sub.name}
-            </Button>
-          ))}
+          {subCate
+            .find(item => item.id === mainId)
+            ?.menus.map((sub, idx) => (
+              <Button
+                key={idx}
+                size="sm"
+                onClick={() => onClick(sub.url)}
+                className={`w-full font-normal justify-start pl-10 mb-1 " ${pathname === sub.url && 'bg-sky-200 text-sky-700'}`}
+                variant="ghost"
+              >
+                {sub.name}
+              </Button>
+            ))}
         </AccordionContent>
       </AccordionItem>
     </>

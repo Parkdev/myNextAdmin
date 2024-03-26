@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Form,
@@ -33,37 +33,14 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useSidePopStore } from '@/store/table-popup-store';
-
-const versionFormSchema = z.object({
-  title: z
-    .string({ required_error: '이름을 입력해주세요' })
-    .min(2, { message: '2글자 이상 입력해주세요' })
-    .max(50),
-  type: z.string({
-    required_error: '유형을 선택해주세요',
-  }),
-  image: z.string({
-    required_error: '이미지를 선택해주세요',
-  }),
-  version: z.string({
-    required_error: '버전을 선택해주세요',
-  }),
-  rule: z.string({
-    required_error: '버전 명명 규칙을 정해주세요',
-  }),
-});
-
-export type versionForm = z.infer<typeof versionFormSchema>;
+import { versionFormSchema, versionForm } from './data/form-schema';
 
 interface CreateVersionProps {
   subject: string;
 }
-
-// const wait = () => new Promise(resolve => setTimeout(resolve, 1000));
 
 export function CreateVersion({ subject }: CreateVersionProps) {
   //상태관리

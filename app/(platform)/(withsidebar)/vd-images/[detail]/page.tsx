@@ -8,7 +8,7 @@ import path from 'path';
 import { columns } from './_components/columns';
 import { DataTable } from '@/components/table/data-table';
 import { title, imgDetailSchema } from './_components/data/schema';
-import { CreateVersion } from '@/components/table/data-table-create-version';
+import { CreateVersion } from '@/app/(platform)/(withsidebar)/vd-images/[detail]/_components/data-table-create-version';
 
 async function getData() {
   const data = await fs.readFile(
