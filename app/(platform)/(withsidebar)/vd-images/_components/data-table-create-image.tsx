@@ -36,6 +36,7 @@ import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useSidePopStore } from '@/store/table-popup-store';
 import { subscribeFormSchema, subscribeForm } from './data/form-schema';
+import { InputItem } from '@/components/input/input-components';
 
 interface CreateImageProps {
   subject: string;
@@ -93,65 +94,27 @@ export function CreateImage({ subject }: CreateImageProps) {
           </SheetHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
+              <InputItem
+                inputType="select"
+                form={form}
                 name="subscribe"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>구독</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="구독을 선택해주세요" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {subscribeList.map((subscribe, idx) => (
-                          <SelectItem key={idx} value={subscribe}>
-                            {subscribe}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="구독"
+                placeholder="구독을 선택해주세요"
+                selectList={subscribeList}
               />
-              <FormField
-                control={form.control}
+              <InputItem
+                inputType="text"
+                form={form}
                 name="imageName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>이미지명</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="이미지 이름을 입력해주세요"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="이미지명"
+                placeholder="이름을 입력해주세요"
               />
-              <FormField
-                control={form.control}
+              <InputItem
+                inputType="textarea"
+                form={form}
                 name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>설명</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder=""
-                        className="resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="설명"
+                placeholder="설명을 입력해주세요"
               />
               <SheetFooter>
                 <Button type="submit">{isMod}</Button>

@@ -18,15 +18,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { UseFormReturn } from 'react-hook-form';
-import { subscribeForm } from '../../../app/(platform)/(withsidebar)/vd-images/_components/data-table-create-image';
-import { VDIForm } from '../../../app/(platform)/(withsidebar)/vdi-workspace/_components/data-table-create-VDI';
-import { ImgDetail } from '@/app/(platform)/(withsidebar)/vd-images/[detail]/_components/data/schema';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Textarea } from '@/components/ui/textarea';
 
 export type InputItemProps = {
   inputType: string;
   form: UseFormReturn<any>;
-  name: keyof VDIForm | keyof subscribeForm | keyof ImgDetail;
+  name: string;
   label: string;
   description?: string;
   placeholder?: string;
@@ -52,6 +49,28 @@ export const InputItem: React.FC<InputItemProps> = ({
             <FormLabel className="font-bold">{label}</FormLabel>
             <FormControl>
               <Input
+                placeholder={placeholder}
+                {...field}
+                value={field.value ? field.value.toString() : ''}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  }
+  if (inputType === 'textarea') {
+    return (
+      <FormField
+        control={form.control}
+        name={name}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="font-bold">{label}</FormLabel>
+            <FormControl>
+              <Textarea
+                className="resize-none"
                 placeholder={placeholder}
                 {...field}
                 value={field.value ? field.value.toString() : ''}

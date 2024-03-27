@@ -37,6 +37,7 @@ import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useSidePopStore } from '@/store/table-popup-store';
 import { versionFormSchema, versionForm } from './data/form-schema';
+import { InputItem } from '@/components/input/input-components';
 
 interface CreateVersionProps {
   subject: string;
@@ -95,129 +96,44 @@ export function CreateVersion({ subject }: CreateVersionProps) {
         </SheetHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
+            <InputItem
+              inputType="text"
+              form={form}
               name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">이미지 명</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="이미지 이름을 입력해주세요"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="이미지 명"
+              placeholder="이미지 이름을 입력해주세요."
             />
-            <FormField
-              control={form.control}
+            <InputItem
+              inputType="select"
+              form={form}
               name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">이미지 유형</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="유형을 선택해주세요" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {typeList.map((type, idx) => (
-                        <SelectItem key={idx} value={type}>
-                          {type}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="이미지 유형"
+              placeholder="유형을 선택해주세요"
+              selectList={typeList}
             />
-            <FormField
-              control={form.control}
+            <InputItem
+              inputType="select"
+              form={form}
               name="image"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">이미지 선택</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="이미지를 선택해주세요" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {imageList.map((image, idx) => (
-                        <SelectItem key={idx} value={image}>
-                          {image}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="이미지 선택"
+              placeholder="이미지를 선택해주세요"
+              selectList={imageList}
             />
-            <FormField
-              control={form.control}
+            <InputItem
+              inputType="select"
+              form={form}
               name="version"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">버전 선택</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="버전을 선택해주세요" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {versionList.map((version, idx) => (
-                        <SelectItem key={idx} value={version}>
-                          {version}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="버전 선택"
+              placeholder="버전을 선택해주세요"
+              selectList={versionList}
             />
-            <FormField
-              control={form.control}
+            <InputItem
+              inputType="select"
+              form={form}
               name="rule"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">이미지 유형</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="버전 규칙 선택" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {ruleList.map((rule, idx) => (
-                        <SelectItem key={idx} value={rule}>
-                          {rule}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="버전 규칙"
+              placeholder="버전 규칙 선택"
+              selectList={ruleList}
             />
             <SheetFooter>
               <Button type="submit">{isMod}</Button>
